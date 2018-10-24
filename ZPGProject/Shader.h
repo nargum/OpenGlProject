@@ -14,7 +14,7 @@
 class Shader : Listener
 {
 public:
-	Shader(Camera* camera);
+	Shader(Camera* camera, Object* object);
 	~Shader();
 
 	void sendUniform(const GLchar *name, glm::vec4 data);
@@ -25,12 +25,14 @@ public:
 	void updateCameraPosition();
 	void useProgram();
 	void onEvent();
+	void bindVertexArray();
 
 private:
 	GLuint vertexShader;
 	GLuint fragmentShader;
 	GLuint shaderProgram;
 	Camera* camera;
+	Object* object;
 	void checkShaderCompilation();
 };
 

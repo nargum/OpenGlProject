@@ -24,20 +24,23 @@ const char* fragment_shader =
 "in vec4 ex_worldPosition;"
 "in vec3 ex_worldNormal;"
 "void main () {"
+"     vec3 lightColor = vec3(1.0, 1.0, 1.0);"
 "     vec4 lightDirection = normalize(vec4(lightPosition, 1.0) - ex_worldPosition);"
 "     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
-"     vec4 diffuse = dot_product * vec4 (1.0, 1.0, 1.0, 1.0);"
+"     vec4 diffuse = dot_product * vec4 (lightColor, 1.0);"
 "     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0);"
 "     float specularStrength = 0.8;"
 "     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
 "     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
 "     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),25);"
-"     vec3 specular = specularStrength * dot_product2 * vec3(1.0, 1.0, 1.0);"
+"     vec3 specular = specularStrength * dot_product2 * lightColor;"
 "     frag_colour =  (ambient + diffuse + vec4(specular, 1.0)) * vec4(1.0, 0.0, 0.0, 1.0);"
 "}";
 
-Shader::Shader(Camera* camera)
+Shader::Shader(Camera* camera, Object* object)
 {
+	this->object = object;
+	//object->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
 	glEnable(GL_DEPTH_TEST);
 	this->camera = camera;
 	camera->addListener(this);
@@ -114,6 +117,11 @@ void Shader::onEvent()
 	updateProjectionMatrix();
 	updateLight();
 	updateCameraPosition();
+}
+
+void Shader::bindVertexArray()
+{
+	object->bindVertexArray();
 }
 
 void Shader::checkShaderCompilation()

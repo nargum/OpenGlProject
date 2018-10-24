@@ -70,25 +70,24 @@ void Window::drawContent()
 	glEnable(GL_DEPTH_TEST);
 	Camera* camera = new Camera();
 	this->camera = camera;
-	Object* triangle = new Object();
-	Shader* shader = new Shader(camera);
+	Object* vSphere = new Object();
+	Shader* shader = new Shader(camera, vSphere);
 	
 	//triangle->scale(0.3f);
-	triangle->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
+
+	shader->useProgram();
+	vSphere->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
+	shader->updateModelMatrix(vSphere);
+	
 	
 	while (!glfwWindowShouldClose(window))
 	{
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		shader->updateModelMatrix(triangle);
-		
-		shader->useProgram();
-		shader->updateLight();
-		triangle->bindVertexArray();
-		glDrawArrays(GL_TRIANGLES, 0, triangle->getModelSize()); //mode,first,count
-										  // update other events like input handling
-	
+
+		vSphere->bindVertexArray();
+		glDrawArrays(GL_TRIANGLES, 0, vSphere->getModelSize());
+
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
