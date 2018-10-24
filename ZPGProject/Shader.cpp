@@ -9,11 +9,11 @@ const char* vertex_shader =
 "layout(location=0) in vec3 vp;"
 "layout(location=1) in vec3 normal;"
 "out vec4 ex_worldPosition;"
-"out vec4 ex_worldNormal;"
+"out vec3 ex_worldNormal;"
 "void main () {"
 "     gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vec4 (vp, 1.0);"
 "     ex_worldPosition = modelMatrix * vec4 (vp, 1.0);"
-"     ex_worldNormal = modelMatrix * vec4(normal, 1.0);"
+"     ex_worldNormal = mat3(transpose(inverse(modelMatrix))) * normal;"
 "}";
 
 const char* fragment_shader =
@@ -21,10 +21,10 @@ const char* fragment_shader =
 "uniform vec3 lightPosition;"
 "out vec4 frag_colour;"
 "in vec4 ex_worldPosition;"
-"in vec4 ex_worldNormal;"
+"in vec3 ex_worldNormal;"
 "void main () {"
 "     vec4 lightDirection = normalize(vec4(lightPosition, 1.0) - ex_worldPosition);"
-"     float dot_product = max(dot(lightDirection, normalize(ex_worldNormal)), 0.0);"
+"     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
 "     vec4 diffuse = dot_product * vec4 (1.0, 1.0, 1.0, 1.0);"
 "     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0);"
 "     frag_colour =  (ambient + diffuse) * vec4(0.0, 0.0, 1.0, 1.0);"
