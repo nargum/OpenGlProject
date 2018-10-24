@@ -73,7 +73,8 @@ void Window::drawContent()
 	Object* triangle = new Object();
 	Shader* shader = new Shader(camera);
 	
-	triangle->scale(0.3f);
+	//triangle->scale(0.3f);
+	triangle->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
 	
 	while (!glfwWindowShouldClose(window))
 	{

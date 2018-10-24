@@ -13,12 +13,13 @@ const char* vertex_shader =
 "void main () {"
 "     gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vec4 (vp, 1.0);"
 "     ex_worldPosition = modelMatrix * vec4 (vp, 1.0);"
-"     ex_worldNormal = mat3(transpose(inverse(modelMatrix))) * normal;"
+"     ex_worldNormal = transpose(inverse(mat3(modelMatrix))) * normal;"
 "}";
 
 const char* fragment_shader =
 "#version 330\n"
 "uniform vec3 lightPosition;"
+"uniform vec3 viewPosition;"
 "out vec4 frag_colour;"
 "in vec4 ex_worldPosition;"
 "in vec3 ex_worldNormal;"
@@ -27,7 +28,12 @@ const char* fragment_shader =
 "     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
 "     vec4 diffuse = dot_product * vec4 (1.0, 1.0, 1.0, 1.0);"
 "     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0);"
-"     frag_colour =  (ambient + diffuse) * vec4(0.0, 0.0, 1.0, 1.0);"
+"     float specularStrength = 0.8;"
+"     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
+"     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
+"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),25);"
+"     vec3 specular = specularStrength * dot_product2 * vec3(1.0, 1.0, 1.0);"
+"     frag_colour =  (ambient + diffuse + vec4(specular, 1.0)) * vec4(1.0, 0.0, 0.0, 1.0);"
 "}";
 
 Shader::Shader(Camera* camera)
@@ -47,17 +53,7 @@ Shader::Shader(Camera* camera)
 	glAttachShader(shaderProgram, vertexShader);
 	glLinkProgram(shaderProgram);
 
-	GLint status;
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
-	if (status == GL_FALSE)
-	{
-		GLint infoLogLength;
-		glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
-		GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-		glGetProgramInfoLog(shaderProgram, infoLogLength, NULL, strInfoLog);
-		fprintf(stderr, "Linker failure: %s\n", strInfoLog);
-		delete[] strInfoLog;
-	}
+	checkShaderCompilation();
 }
 
 
@@ -97,7 +93,14 @@ void Shader::updateProjectionMatrix()
 void Shader::updateLight()
 {
 	GLint myLoc = glGetUniformLocation(shaderProgram, "lightPosition");
-	glProgramUniform3f(shaderProgram, myLoc, 1.f, 0.f, 0.f);
+	glProgramUniform3f(shaderProgram, myLoc, 0.f, 0.f, 0.5f);
+}
+
+void Shader::updateCameraPosition()
+{
+	glm::vec3 camPosition = camera->getCamPosition();
+	GLint myLoc = glGetUniformLocation(shaderProgram, "viewPosition");
+	glProgramUniform3f(shaderProgram, myLoc, camPosition.x, camPosition.y, camPosition.z);
 }
 
 void Shader::useProgram()
@@ -110,5 +113,21 @@ void Shader::onEvent()
 	updateViewMatrix();
 	updateProjectionMatrix();
 	updateLight();
+	updateCameraPosition();
+}
+
+void Shader::checkShaderCompilation()
+{
+	GLint status;
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
+	if (status == GL_FALSE)
+	{
+		GLint infoLogLength;
+		glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
+		GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+		glGetProgramInfoLog(shaderProgram, infoLogLength, NULL, strInfoLog);
+		fprintf(stderr, "Linker failure: %s\n", strInfoLog);
+		delete[] strInfoLog;
+	}
 }
 

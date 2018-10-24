@@ -33,6 +33,11 @@ glm::mat4 Camera::getProjectionMatrix()
 	return projectionMatrix;
 }
 
+glm::vec3 Camera::getCamPosition()
+{
+	return camPosition;
+}
+
 void Camera::moveForward()
 {
 	/*camPosition.z -= 0.05f;

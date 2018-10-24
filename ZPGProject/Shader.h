@@ -22,6 +22,7 @@ public:
 	void updateViewMatrix();
 	void updateProjectionMatrix();
 	void updateLight();
+	void updateCameraPosition();
 	void useProgram();
 	void onEvent();
 
@@ -30,5 +31,6 @@ private:
 	GLuint fragmentShader;
 	GLuint shaderProgram;
 	Camera* camera;
+	void checkShaderCompilation();
 };
 

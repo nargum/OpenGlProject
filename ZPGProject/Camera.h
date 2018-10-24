@@ -16,6 +16,7 @@ public:
 	~Camera();
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix();
+	glm::vec3 getCamPosition();
 	void moveForward();
 	void moveBack();
 	void moveLeft();
