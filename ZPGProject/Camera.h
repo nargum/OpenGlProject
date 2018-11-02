@@ -26,7 +26,7 @@ public:
 	void addListener(Listener* listener);
 	void publishEvent();
 	void update();
-
+	bool firstMouse;
 
 private:
 	glm::mat4 viewMatrix;
@@ -39,7 +39,7 @@ private:
 	float vertical;
 	float lastX;
 	float lastY;
-	bool firstMouse;
+	
 	
 	
 };

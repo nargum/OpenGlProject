@@ -11,10 +11,12 @@
 
 #include "Object.h"
 #include "Camera.h"
+
+class Object;
 class Shader : Listener
 {
 public:
-	Shader(Camera* camera, Object* object);
+	Shader(Camera* camera);
 	~Shader();
 
 	void sendUniform(const GLchar *name, glm::vec4 data);
@@ -25,14 +27,13 @@ public:
 	void updateCameraPosition();
 	void useProgram();
 	void onEvent();
-	void bindVertexArray();
+	void updateModelMatrix(glm::mat4 modelMatrix);
 
 private:
 	GLuint vertexShader;
 	GLuint fragmentShader;
 	GLuint shaderProgram;
 	Camera* camera;
-	Object* object;
 	void checkShaderCompilation();
 };
 

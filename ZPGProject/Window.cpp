@@ -1,6 +1,6 @@
 #include "Window.h"
 
-
+bool moveCamera = false;
 
 Window::Window(int width, int height)
 {
@@ -67,27 +67,39 @@ void Window::destroyWindow()
 
 void Window::drawContent()
 {
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	Camera* camera = new Camera();
 	this->camera = camera;
-	Object* vSphere = new Object();
-	Shader* shader = new Shader(camera, vSphere);
-	
-	//triangle->scale(0.3f);
+	Shader* shader = new Shader(camera);
+	Shader* shader2 = new Shader(camera);
+	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	Model* k = new Model();
 
-	shader->useProgram();
-	vSphere->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
-	shader->updateModelMatrix(vSphere);
-	
+
+	Object * vSphere = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
+	Model* model = new Model();
+	vSphere->translate(glm::vec3(-2.f, 2.f, 0.f), model);
+	vSphere->scale(0.8, model);
+	vSphere->rotate('y', 45.0, model);
+
+	Model* model2 = new Model();
+	vSphere->translate(glm::vec3(-2.f, -2.f, 0.f), model2);
+	vSphere->scale(0.9, model2);
+	vSphere->rotate('y', -45.0, model2);
+
+	Model* model3 = new Model();
+	vSphere->translate(glm::vec3(2.f, 2.f, 0.f), model3);
+	vSphere->scale(1.1, model3);
 	
 	while (!glfwWindowShouldClose(window))
 	{
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		vSphere->bindVertexArray();
-		glDrawArrays(GL_TRIANGLES, 0, vSphere->getModelSize());
-
+		vSphere->draw(model);
+		vSphere->draw(model2);
+		vSphere->draw(model3);
+		circle->draw(k);
+		
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
@@ -139,11 +151,19 @@ void Window::window_size_callback(GLFWwindow * window, int width, int height)
 void Window::cursor_callback(GLFWwindow * window, double x, double y)
 {
 	printf("cursor_callback \n");
-	camera->moveCursor(x, y);
+	if(moveCamera)
+		camera->moveCursor(x, y);
 }
 
 void Window::button_callback(GLFWwindow * window, int button, int action, int mode)
 {
-	if (action == GLFW_PRESS) printf("button_callback [%d,%d,%d]\n", button, action, mode);
+	if (action == 1) {
+		printf("button_callback [%d,%d,%d]\n", button, action, mode);
+		moveCamera = true;
+	}
+	else {
+		moveCamera = false;
+		camera->firstMouse = true;
+	}
 }
 

@@ -29,17 +29,15 @@ const char* fragment_shader =
 "     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
 "     vec4 diffuse = dot_product * vec4 (lightColor, 1.0);"
 "     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0);"
-"     float specularStrength = 0.8;"
 "     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
 "     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
 "     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),25);"
-"     vec3 specular = specularStrength * dot_product2 * lightColor;"
-"     frag_colour =  (ambient + diffuse + vec4(specular, 1.0)) * vec4(1.0, 0.0, 0.0, 1.0);"
+"     vec4 specular = dot_product2 * vec4(1.0, 1.0, 1.0, 1.0);"
+"     frag_colour =  ambient + diffuse + specular;"
 "}";
 
-Shader::Shader(Camera* camera, Object* object)
+Shader::Shader(Camera* camera)
 {
-	this->object = object;
 	//object->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
 	glEnable(GL_DEPTH_TEST);
 	this->camera = camera;
@@ -81,6 +79,12 @@ void Shader::updateModelMatrix(Object* object)
 	glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(object->getModelMatrix()));
 }
 
+void Shader::updateModelMatrix(glm::mat4 modelMatrix)
+{
+	GLint id = glGetUniformLocation(shaderProgram, "modelMatrix");
+	glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+}
+
 void Shader::updateViewMatrix()
 {
 	GLint id = glGetUniformLocation(shaderProgram, "viewMatrix");
@@ -96,7 +100,7 @@ void Shader::updateProjectionMatrix()
 void Shader::updateLight()
 {
 	GLint myLoc = glGetUniformLocation(shaderProgram, "lightPosition");
-	glProgramUniform3f(shaderProgram, myLoc, 0.f, 0.f, 0.5f);
+	glProgramUniform3f(shaderProgram, myLoc, -5.f, 0.f, 0.5f);
 }
 
 void Shader::updateCameraPosition()
@@ -113,16 +117,13 @@ void Shader::useProgram()
 
 void Shader::onEvent()
 {
+	updateCameraPosition();
 	updateViewMatrix();
 	updateProjectionMatrix();
 	updateLight();
-	updateCameraPosition();
+	
 }
 
-void Shader::bindVertexArray()
-{
-	object->bindVertexArray();
-}
 
 void Shader::checkShaderCompilation()
 {

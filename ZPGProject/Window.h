@@ -11,6 +11,8 @@
 #include "Object.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "VSphere.h"
+#include "Suzi.h"
 
 
 class Window

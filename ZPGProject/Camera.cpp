@@ -4,18 +4,17 @@
 
 Camera::Camera()
 {
-	lastX = 400.f;
-	lastY = 300.f;
-	horizontal = 0.0f;
+	lastX = 0.f;
+	lastY = 0.f;
+	horizontal = -88.0f;
 	vertical = 0.0f;
 	firstMouse = true;
-	camPosition = glm::vec3 (0.f, 0.f, 5.f);
+	camPosition = glm::vec3 (0.f, 0.f, 8.f);
 	worldUP = glm::vec3 (0.f, 1.f, 0.f);
 	camFront = glm::vec3 (0.f, 0.f, -1.f);
-	viewMatrix = glm::mat4(1.f);
 	viewMatrix = glm::lookAt(camPosition, camPosition + camFront, worldUP);
-	projectionMatrix = glm::mat4(1.f);
 	projectionMatrix = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+	
 }
 
 
@@ -92,7 +91,7 @@ void Camera::moveCursor(double x, double y)
 	lastX = x;
 	lastY = y;
 
-	float sensitivity = 0.5f;
+	float sensitivity = 0.2f;
 	xOffset *= sensitivity;
 	yOffset *= sensitivity;
 
