@@ -16,8 +16,6 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "Shader.h"
-#include "Object.h"
 #include "Window.h"
 class Application
 {

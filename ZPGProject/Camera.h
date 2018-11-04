@@ -25,7 +25,6 @@ public:
 	float getXAngle();
 	void addListener(Listener* listener);
 	void publishEvent();
-	void update();
 	bool firstMouse;
 
 private:

@@ -38,7 +38,6 @@ const char* fragment_shader =
 
 Shader::Shader(Camera* camera, Light* light)
 {
-	//object->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
 	glEnable(GL_DEPTH_TEST);
 	this->camera = camera;
 	this->light = light;
@@ -63,23 +62,6 @@ Shader::Shader(Camera* camera, Light* light)
 
 Shader::~Shader()
 {
-}
-
-void Shader::sendUniform(const GLchar * name, glm::vec4 data)
-{
-	GLint uniformID = glGetUniformLocation(this->shaderProgram, name);
-	if (uniformID >= 0) {
-		glUniform4f(uniformID, data.x, data.y, data.z, data.w);
-	}
-	else {
-		// in shader doesn't exist uniform variable 
-	}
-}
-
-void Shader::updateModelMatrix(Object* object)
-{
-	GLint id = glGetUniformLocation(shaderProgram, "modelMatrix");
-	glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(object->getModelMatrix()));
 }
 
 void Shader::updateModelMatrix(glm::mat4 modelMatrix)

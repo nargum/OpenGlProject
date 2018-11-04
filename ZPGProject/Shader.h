@@ -9,19 +9,15 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
-#include "Object.h"
 #include "Camera.h"
 #include "Light.h"
 
-class Object;
 class Shader : Listener
 {
 public:
 	Shader(Camera* camera, Light* light);
 	~Shader();
 
-	void sendUniform(const GLchar *name, glm::vec4 data);
-	void updateModelMatrix(Object* object);
 	void updateViewMatrix();
 	void updateProjectionMatrix();
 	void updateLight();

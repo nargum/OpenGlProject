@@ -26,13 +26,9 @@ Object::~Object()
 {
 }
 
-glm::mat4 Object::getModelMatrix()
-{
-	return M;
-}
-
 void Object::rotate(char axis, float angle, Model* model)
 {
+	glm::mat4 M = glm::mat4(1.0f);
 	switch (axis) {
 	case 'x':
 		M = glm::rotate(model->getModelMatrix(), glm::radians(angle), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -47,21 +43,20 @@ void Object::rotate(char axis, float angle, Model* model)
 		model->setModelMatrix(M);
 		break;
 	}
-	//publishEvent();
 }
 
 void Object::translate(glm::vec3 distance, Model* model)
 {
+	glm::mat4 M = glm::mat4(1.0f);
 	M = glm::translate(model->getModelMatrix(), distance);
 	model->setModelMatrix(M);
-	//publishEvent();
 }
 
 void Object::scale(float scale, Model* model)
 {
+	glm::mat4 M = glm::mat4(1.0f);
 	M = glm::scale(model->getModelMatrix(), glm::vec3(scale));
 	model->setModelMatrix(M);
-	//publishEvent();
 }
 
 void Object::bindVertexArray()
@@ -69,28 +64,12 @@ void Object::bindVertexArray()
 	glBindVertexArray(VAO);
 }
 
-float Object::getModelSize()
-{
-	return modelSize;
-}
-
-void Object::addListener(Listener * listener)
-{
-	listeners.push_back(listener);
-}
-
-void Object::publishEvent()
-{
-	for (Listener* lis : listeners)
-		lis->onEvent();
-}
-
 void Object::draw(Model* model)
 {
-	bindVertexArray();
 	shader->useProgram();
+	bindVertexArray();
 	shader->updateModelMatrix(model->getModelMatrix());
-	glDrawArrays(GL_TRIANGLES, 0, this->getModelSize());
+	glDrawArrays(GL_TRIANGLES, 0, modelSize);
 }
 
 

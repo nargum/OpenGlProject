@@ -130,8 +130,4 @@ void Camera::publishEvent()
 		lis->onEvent();
 }
 
-void Camera::update()
-{
-	publishEvent();
-}
 
