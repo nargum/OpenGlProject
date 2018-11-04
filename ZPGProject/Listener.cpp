@@ -3,3 +3,7 @@
 void Listener::onEvent()
 {
 }
+
+void Listener::onLightEvent()
+{
+}

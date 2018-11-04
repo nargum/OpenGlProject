@@ -70,8 +70,10 @@ void Window::drawContent()
 	//glEnable(GL_DEPTH_TEST);
 	Camera* camera = new Camera();
 	this->camera = camera;
-	Shader* shader = new Shader(camera);
-	Shader* shader2 = new Shader(camera);
+	Light* light = new Light();
+
+	Shader* shader = new Shader(camera, light);
+	Shader* shader2 = new Shader(camera, light);
 	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
 	Model* k = new Model();
 
@@ -98,7 +100,8 @@ void Window::drawContent()
 		vSphere->draw(model);
 		vSphere->draw(model2);
 		vSphere->draw(model3);
-		circle->draw(k);
+		//circle->draw(k);
+		
 		
 		glfwPollEvents();
 		glfwSwapBuffers(window);

@@ -18,30 +18,33 @@ const char* vertex_shader =
 
 const char* fragment_shader =
 "#version 330\n"
-"uniform vec3 lightPosition;"
+"uniform vec4 lightPosition;"
+"uniform vec4 lightColor;"
 "uniform vec3 viewPosition;"
 "out vec4 frag_colour;"
 "in vec4 ex_worldPosition;"
 "in vec3 ex_worldNormal;"
 "void main () {"
-"     vec3 lightColor = vec3(1.0, 1.0, 1.0);"
-"     vec4 lightDirection = normalize(vec4(lightPosition, 1.0) - ex_worldPosition);"
+"     vec4 lightDirection = normalize(lightPosition - ex_worldPosition);"
 "     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
-"     vec4 diffuse = dot_product * vec4 (lightColor, 1.0);"
+"     vec4 diffuse = dot_product * lightColor;"
 "     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0);"
 "     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
 "     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
 "     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),25);"
-"     vec4 specular = dot_product2 * vec4(1.0, 1.0, 1.0, 1.0);"
+"     vec4 specular = dot_product2 * lightColor;"
 "     frag_colour =  ambient + diffuse + specular;"
 "}";
 
-Shader::Shader(Camera* camera)
+Shader::Shader(Camera* camera, Light* light)
 {
 	//object->translate(glm::vec4(3.0, 0.0, 0.0, 1.0));
 	glEnable(GL_DEPTH_TEST);
 	this->camera = camera;
+	this->light = light;
 	camera->addListener(this);
+	light->addListener(this);
+	light->publishEvent();
 	//create and compile shaders
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertex_shader, NULL);
@@ -100,7 +103,11 @@ void Shader::updateProjectionMatrix()
 void Shader::updateLight()
 {
 	GLint myLoc = glGetUniformLocation(shaderProgram, "lightPosition");
-	glProgramUniform3f(shaderProgram, myLoc, -5.f, 0.f, 0.5f);
+	//glProgramUniform3f(shaderProgram, myLoc, -5.f, 0.f, 0.5f);
+	glProgramUniform4f(shaderProgram, myLoc, light->getLightPosition().x, light->getLightPosition().y, light->getLightPosition().z, light->getLightPosition().w);
+	//glProgramUniform4f(shaderProgram, myLoc, 0.0, 0.0, 0.0, 1.0);
+	GLint myColor = glGetUniformLocation(shaderProgram, "lightColor");
+	glProgramUniform4f(shaderProgram, myColor, light->getLightColor().x, light->getLightColor().y, light->getLightColor().z, light->getLightColor().w);
 }
 
 void Shader::updateCameraPosition()
@@ -120,8 +127,11 @@ void Shader::onEvent()
 	updateCameraPosition();
 	updateViewMatrix();
 	updateProjectionMatrix();
+}
+
+void Shader::onLightEvent()
+{
 	updateLight();
-	
 }
 
 

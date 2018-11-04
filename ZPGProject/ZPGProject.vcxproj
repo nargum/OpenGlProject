@@ -117,10 +117,10 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Listener.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -128,10 +128,10 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Suzi.h" />
     <ClInclude Include="Vertex.h" />
