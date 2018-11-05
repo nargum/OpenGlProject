@@ -11,6 +11,7 @@
 
 #include "Camera.h"
 #include "Light.h"
+#include "Material.h"
 
 class Shader : Listener
 {
@@ -22,6 +23,7 @@ public:
 	void updateProjectionMatrix();
 	void updateLight();
 	void updateCameraPosition();
+	void updateMaterial(Material mat);
 	void useProgram();
 	void onEvent();
 	void onLightEvent();

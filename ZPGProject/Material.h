@@ -5,18 +5,9 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
-#include "Material.h"
 
-class Model
-{
-public:
-	Model(Material mat);
-	~Model();
-	glm::mat4 getModelMatrix();
-	void setModelMatrix(glm::mat4 modelMatrix);
-	Material getMaterial();
-private:
-	glm::mat4 modelMatrix;
-	Material material;
+struct Material {
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
 };
-

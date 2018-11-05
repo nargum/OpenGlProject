@@ -71,27 +71,35 @@ void Window::drawContent()
 	Camera* camera = new Camera();
 	this->camera = camera;
 	Light* light = new Light();
+	Material mat;
+	mat.ambient = glm::vec3(0.2125f, 0.1275f, 0.054f);
+	mat.diffuse = glm::vec3(0.714f, 0.4284f, 0.18144f);
+	mat.specular = glm::vec3(0.393548f, 0.271906f, 0.166721f);
+
+	Material mat2;
+	mat2.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+	mat2.diffuse = glm::vec3(0.0f, 0.5f, 0.0f);
+	mat2.specular = glm::vec3(0.01f, 0.01f, 0.01f);
 
 	Shader* shader = new Shader(camera, light);
-	Shader* shader2 = new Shader(camera, light);
-	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
-	Model* k = new Model();
+	Object* circle = new Object(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	Model* k = new Model(mat);
 
 
 	Object * vSphere = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
-	Model* model = new Model();
+	Model* model = new Model(mat);
 	vSphere->translate(glm::vec3(-2.f, 2.f, 0.f), model);
 	vSphere->scale(0.8, model);
-	vSphere->rotate('y', 45.0, model);
+	//vSphere->rotate('y', 45.0, model);
 
-	Model* model2 = new Model();
+	Model* model2 = new Model(mat2);
 	vSphere->translate(glm::vec3(-2.f, -2.f, 0.f), model2);
-	vSphere->scale(0.9, model2);
-	vSphere->rotate('y', -45.0, model2);
+	vSphere->scale(0.8, model2);
+	//vSphere->rotate('y', -45.0, model2);
 
-	Model* model3 = new Model();
+	Model* model3 = new Model(mat);
 	vSphere->translate(glm::vec3(2.f, 2.f, 0.f), model3);
-	vSphere->scale(1.1, model3);
+	vSphere->scale(0.8, model3);
 	
 	while (!glfwWindowShouldClose(window))
 	{
@@ -100,7 +108,7 @@ void Window::drawContent()
 		vSphere->draw(model);
 		vSphere->draw(model2);
 		vSphere->draw(model3);
-		//circle->draw(k);
+		circle->draw(k);
 		
 		
 		glfwPollEvents();

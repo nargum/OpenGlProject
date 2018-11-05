@@ -9,7 +9,7 @@ Object::Object(Shader* shader, const Vertex *VERTICES, float modelSize, float si
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
-	//VBO = 0;
+	//this->VBO = VBO;
 	glGenBuffers(1, &VBO); // generate the VBO
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, size, VERTICES,
@@ -69,6 +69,7 @@ void Object::draw(Model* model)
 	shader->useProgram();
 	bindVertexArray();
 	shader->updateModelMatrix(model->getModelMatrix());
+	shader->updateMaterial(model->getMaterial());
 	glDrawArrays(GL_TRIANGLES, 0, modelSize);
 }
 

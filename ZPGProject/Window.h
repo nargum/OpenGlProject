@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "VSphere.h"
 #include "Suzi.h"
+#include "Material.h"
 
 
 class Window

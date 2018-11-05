@@ -21,19 +21,22 @@ const char* fragment_shader =
 "uniform vec4 lightPosition;"
 "uniform vec4 lightColor;"
 "uniform vec3 viewPosition;"
+"uniform vec3 materialAmbient;"
+"uniform vec3 materialDiffuse;"
+"uniform vec3 materialSpecular;"
 "out vec4 frag_colour;"
 "in vec4 ex_worldPosition;"
 "in vec3 ex_worldNormal;"
 "void main () {"
 "     vec4 lightDirection = normalize(lightPosition - ex_worldPosition);"
 "     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
-"     vec4 diffuse = dot_product * lightColor;"
-"     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0);"
+"     vec4 diffuse = (dot_product * vec4(materialDiffuse, 0.1)) * lightColor;"
+"     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0) * vec4(materialAmbient, 0.1);"
 "     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
 "     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
-"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),25);"
-"     vec4 specular = dot_product2 * lightColor;"
-"     frag_colour =  ambient + diffuse + specular;"
+"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),35);"
+"     vec4 specular = (dot_product2 * vec4(materialSpecular, 0.1)) * lightColor;"
+"     frag_colour = ambient + diffuse + specular;"
 "}";
 
 Shader::Shader(Camera* camera, Light* light)
@@ -97,6 +100,18 @@ void Shader::updateCameraPosition()
 	glm::vec3 camPosition = camera->getCamPosition();
 	GLint myLoc = glGetUniformLocation(shaderProgram, "viewPosition");
 	glProgramUniform3f(shaderProgram, myLoc, camPosition.x, camPosition.y, camPosition.z);
+}
+
+void Shader::updateMaterial(Material mat)
+{
+	GLint ambient = glGetUniformLocation(shaderProgram, "materialAmbient");
+	glProgramUniform3f(shaderProgram, ambient, mat.ambient.x, mat.ambient.y, mat.ambient.z);
+
+	GLint diffuse = glGetUniformLocation(shaderProgram, "materialDiffuse");
+	glProgramUniform3f(shaderProgram, diffuse, mat.diffuse.x, mat.diffuse.y, mat.diffuse.z);
+
+	GLint specular = glGetUniformLocation(shaderProgram, "materialSpecular");
+	glProgramUniform3f(shaderProgram, specular, mat.specular.x, mat.specular.y, mat.specular.z);
 }
 
 void Shader::useProgram()

@@ -2,9 +2,10 @@
 
 
 
-Model::Model()
+Model::Model(Material mat)
 {
 	modelMatrix = glm::mat4(1.0);
+	material = mat;
 }
 
 
@@ -20,4 +21,9 @@ glm::mat4 Model::getModelMatrix()
 void Model::setModelMatrix(glm::mat4 modelMatrix)
 {
 	this->modelMatrix = modelMatrix;
+}
+
+Material Model::getMaterial()
+{
+	return material;
 }
