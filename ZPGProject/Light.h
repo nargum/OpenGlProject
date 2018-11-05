@@ -15,6 +15,7 @@ public:
 	~Light();
 	glm::vec4 getLightPosition();
 	void setLightPosition(glm::vec4 lightPosition);
+	void setLightPosition(float angle);
 	glm::vec4 getLightColor();
 	void setLightColor(glm::vec4 lightColor);
 	void addListener(Listener* listener);

@@ -109,6 +109,8 @@ void Window::drawContent()
 		vSphere->draw(model2);
 		vSphere->draw(model3);
 		circle->draw(k);
+		//light->setLightPosition(glm::vec4(0.02f, 0.0, 0.0, 0.0));
+		light->setLightPosition(2.0);
 		
 		
 		glfwPollEvents();

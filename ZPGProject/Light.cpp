@@ -21,7 +21,18 @@ glm::vec4 Light::getLightPosition()
 
 void Light::setLightPosition(glm::vec4 lightPosition)
 {
-	this->lightPosition = lightPosition;
+	this->lightPosition = this->lightPosition + lightPosition;
+	publishEvent();
+}
+
+void Light::setLightPosition(float angle)
+{
+	float x = this->lightPosition.x + cos(angle) * 20.0;
+	this->lightPosition.x = x;
+	float y = this->lightPosition.y + sin(angle) * 20.0;
+	this->lightPosition.y = y;
+	//this->lightPosition = glm::normalize(this->lightPosition);
+	//this->lightPosition.x += angle;
 	publishEvent();
 }
 
