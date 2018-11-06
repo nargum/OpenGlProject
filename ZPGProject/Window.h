@@ -14,6 +14,7 @@
 #include "VSphere.h"
 #include "Suzi.h"
 #include "Material.h"
+#include "ShaderLoader.h"
 
 
 class Window

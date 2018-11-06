@@ -81,36 +81,48 @@ void Window::drawContent()
 	mat2.diffuse = glm::vec3(0.0f, 0.5f, 0.0f);
 	mat2.specular = glm::vec3(0.01f, 0.01f, 0.01f);
 
+	Shader* shader2 = new Shader(camera, light);
+	//shader2->onEvent();
+	//shader2->onLightEvent();
 	Shader* shader = new Shader(camera, light);
-	Object* circle = new Object(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	//shader->onEvent();
+	//shader->onLightEvent();
+
+	ShaderLoader* loader = new ShaderLoader();
+	loader->addShader(shader);
+	loader->addShader(shader2);
+	loader->loadShaders();
+
+	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
 	Model* k = new Model(mat);
 
 
-	Object * vSphere = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
+	Object * suzi = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 	Model* model = new Model(mat);
-	vSphere->translate(glm::vec3(-2.f, 2.f, 0.f), model);
-	vSphere->scale(0.8, model);
+	suzi->translate(glm::vec3(-2.f, 2.f, 0.f), model);
+	suzi->scale(0.8, model);
 	//vSphere->rotate('y', 45.0, model);
 
 	Model* model2 = new Model(mat2);
-	vSphere->translate(glm::vec3(-2.f, -2.f, 0.f), model2);
-	vSphere->scale(0.8, model2);
+	suzi->translate(glm::vec3(-2.f, -2.f, 0.f), model2);
+	suzi->scale(0.8, model2);
 	//vSphere->rotate('y', -45.0, model2);
 
 	Model* model3 = new Model(mat);
-	vSphere->translate(glm::vec3(2.f, 2.f, 0.f), model3);
-	vSphere->scale(0.8, model3);
+	suzi->translate(glm::vec3(2.f, 2.f, 0.f), model3);
+	suzi->scale(0.8, model3);
 	
 	while (!glfwWindowShouldClose(window))
 	{
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		vSphere->draw(model);
-		vSphere->draw(model2);
-		vSphere->draw(model3);
 		circle->draw(k);
+		suzi->draw(model);
+		suzi->draw(model2);
+		suzi->draw(model3);
+		
 		//light->setLightPosition(glm::vec4(0.02f, 0.0, 0.0, 0.0));
-		light->setLightPosition(2.0);
+		//light->setLightPosition(2.0);
 		
 		
 		glfwPollEvents();

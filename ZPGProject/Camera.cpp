@@ -7,6 +7,7 @@ Camera::Camera()
 	lastX = 0.f;
 	lastY = 0.f;
 	horizontal = -88.0f;
+	//horizontal = 0.0f;
 	vertical = 0.0f;
 	firstMouse = true;
 	camPosition = glm::vec3 (0.f, 0.f, 8.f);

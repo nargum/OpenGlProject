@@ -122,8 +122,6 @@ void Shader::useProgram()
 void Shader::onEvent()
 {
 	updateCameraPosition();
-	updateViewMatrix();
-	updateProjectionMatrix();
 }
 
 void Shader::onLightEvent()

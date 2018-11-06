@@ -19,6 +19,7 @@ Object::Object(Shader* shader, const Vertex *VERTICES, float modelSize, float si
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
 	bindVertexArray();
+	
 }
 
 
@@ -70,6 +71,10 @@ void Object::draw(Model* model)
 	bindVertexArray();
 	shader->updateModelMatrix(model->getModelMatrix());
 	shader->updateMaterial(model->getMaterial());
+	shader->updateViewMatrix();
+	shader->updateProjectionMatrix();
+	//shader->onEvent();
+	//shader->onLightEvent();
 	glDrawArrays(GL_TRIANGLES, 0, modelSize);
 }
 
