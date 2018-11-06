@@ -77,16 +77,13 @@ void Window::drawContent()
 	mat.specular = glm::vec3(0.393548f, 0.271906f, 0.166721f);
 
 	Material mat2;
-	mat2.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-	mat2.diffuse = glm::vec3(0.0f, 0.5f, 0.0f);
-	mat2.specular = glm::vec3(0.01f, 0.01f, 0.01f);
+	mat2.ambient = glm::vec3(0.0215f, 0.1745f, 0.0215f);
+	mat2.diffuse = glm::vec3(0.07568f, 0.61424f, 0.07568f);
+	mat2.specular = glm::vec3(0.633f, 0.727811f, 0.633f);
 
 	Shader* shader2 = new Shader(camera, light);
-	//shader2->onEvent();
-	//shader2->onLightEvent();
 	Shader* shader = new Shader(camera, light);
-	//shader->onEvent();
-	//shader->onLightEvent();
+	
 
 	ShaderLoader* loader = new ShaderLoader();
 	loader->addShader(shader);
@@ -94,32 +91,36 @@ void Window::drawContent()
 	loader->loadShaders();
 
 	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
-	Model* k = new Model(mat);
+	Model* k = new Model(mat2);
+	
 
 
 	Object * suzi = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
-	Model* model = new Model(mat);
+	Model* model = new Model(mat2);
 	suzi->translate(glm::vec3(-2.f, 2.f, 0.f), model);
-	suzi->scale(0.8, model);
+	//suzi->scale(0.8, model);
 	//vSphere->rotate('y', 45.0, model);
+
+	suzi->translate(glm::vec3(-1.f, 0.f, 0.f), k);
+	//suzi->scale(0.8, k);
 
 	Model* model2 = new Model(mat2);
 	suzi->translate(glm::vec3(-2.f, -2.f, 0.f), model2);
-	suzi->scale(0.8, model2);
+	//suzi->scale(0.8, model2);
 	//vSphere->rotate('y', -45.0, model2);
 
-	Model* model3 = new Model(mat);
+	Model* model3 = new Model(mat2);
 	suzi->translate(glm::vec3(2.f, 2.f, 0.f), model3);
-	suzi->scale(0.8, model3);
+	//suzi->scale(0.8, model3);
 	
 	while (!glfwWindowShouldClose(window))
 	{
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		circle->draw(k);
-		suzi->draw(model);
-		suzi->draw(model2);
-		suzi->draw(model3);
+		circle->draw(model);
+		circle->draw(model2);
+		circle->draw(model3);
 		
 		//light->setLightPosition(glm::vec4(0.02f, 0.0, 0.0, 0.0));
 		//light->setLightPosition(2.0);

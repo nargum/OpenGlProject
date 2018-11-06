@@ -73,8 +73,6 @@ void Object::draw(Model* model)
 	shader->updateMaterial(model->getMaterial());
 	shader->updateViewMatrix();
 	shader->updateProjectionMatrix();
-	//shader->onEvent();
-	//shader->onLightEvent();
 	glDrawArrays(GL_TRIANGLES, 0, modelSize);
 }
 
