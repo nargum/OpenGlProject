@@ -2,8 +2,9 @@
 
 
 
-Model::Model(Material mat)
+Model::Model(Material mat, int id)
 {
+	this->id = id;
 	M = glm::mat4(1.0);
 	material = mat;
 }
@@ -51,4 +52,9 @@ void Model::rotate(char axis, float angle)
 		M = glm::rotate(M, glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
 		break;
 	}
+}
+
+int Model::getId()
+{
+	return id;
 }

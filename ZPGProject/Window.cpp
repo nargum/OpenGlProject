@@ -1,7 +1,5 @@
 #include "Window.h"
 
-bool moveCamera = false;
-
 Window::Window(int width, int height)
 {
 	this->width = width;
@@ -78,6 +76,12 @@ void Window::drawContent()
 	gold.specular = glm::vec3(0.628281, 0.555802, 0.366065);
 	gold.shininess = 0.4 * 128;
 
+	Material pearl;
+	pearl.ambient = glm::vec3(0.25, 0.20725, 0.20725);
+	pearl.diffuse = glm::vec3(1.0, 0.829, 0.829);
+	pearl.specular = glm::vec3(0.296648, 0.296648, 0.296648);
+	pearl.shininess = 0.088 * 128;
+
 	Shader* shader2 = new Shader(camera, light);
 	Shader* shader = new Shader(camera, light);
 	
@@ -88,12 +92,12 @@ void Window::drawContent()
 	loader->loadShaders();
 
 	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
-	Model* k = new Model(gold);
-	
-
-
 	Object * suzi = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
-	Model* model = new Model(gold);
+
+
+
+	Model* k = new Model(pearl,1);
+	Model* model = new Model(pearl, 2);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
@@ -102,11 +106,11 @@ void Window::drawContent()
 	k->rotate('z', 30.0);
 	
 
-	Model* model2 = new Model(gold);
+	Model* model2 = new Model(gold, 3);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
 
-	Model* model3 = new Model(gold);
+	Model* model3 = new Model(gold, 4);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	
@@ -171,7 +175,8 @@ void Window::window_size_callback(GLFWwindow * window, int width, int height)
 void Window::cursor_callback(GLFWwindow * window, double x, double y)
 {
 	printf("cursor_callback \n");
-	if(moveCamera)
+
+	if (camera->getMoveCamera())
 		camera->moveCursor(x, y);
 }
 
@@ -179,10 +184,10 @@ void Window::button_callback(GLFWwindow * window, int button, int action, int mo
 {
 	if (action == 1) {
 		printf("button_callback [%d,%d,%d]\n", button, action, mode);
-		moveCamera = true;
+		camera->setMoveCamera(true);
 	}
 	else {
-		moveCamera = false;
+		camera->setMoveCamera(false);
 		camera->firstMouse = true;
 	}
 }

@@ -10,7 +10,7 @@
 class Model
 {
 public:
-	Model(Material mat);
+	Model(Material mat, int id);
 	~Model();
 	glm::mat4 getModelMatrix();
 	void setModelMatrix(glm::mat4 modelMatrix);
@@ -18,8 +18,10 @@ public:
 	void translate(glm::vec3 distance);
 	void scale(float scale);
 	void rotate(char axis, float angle);
+	int getId();
 private:
 	Material material;
 	glm::mat4 M;
+	int id;
 };
 

@@ -26,6 +26,8 @@ public:
 	void addListener(Listener* listener);
 	void publishEvent();
 	bool firstMouse;
+	bool getMoveCamera();
+	void setMoveCamera(bool moveCamera);
 
 private:
 	glm::mat4 viewMatrix;
@@ -38,6 +40,7 @@ private:
 	float vertical;
 	float lastX;
 	float lastY;
+	bool moveCamera;
 	
 	
 	

@@ -4,6 +4,7 @@
 
 Camera::Camera()
 {
+	moveCamera = false;
 	lastX = 0.f;
 	lastY = 0.f;
 	horizontal = -88.0f;
@@ -129,6 +130,16 @@ void Camera::publishEvent()
 {
 	for (Listener* lis : listeners)
 		lis->onEvent();
+}
+
+bool Camera::getMoveCamera()
+{
+	return moveCamera;
+}
+
+void Camera::setMoveCamera(bool moveCamera)
+{
+	this->moveCamera = moveCamera;
 }
 
 
