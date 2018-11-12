@@ -29,8 +29,6 @@ Application::Application()
 void Application::setupApplication()
 {
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_RESCALE_NORMAL);
 }
 
 

@@ -71,19 +71,12 @@ void Window::drawContent()
 	Camera* camera = new Camera();
 	this->camera = camera;
 	Light* light = new Light();
-	Material mat;
-	mat.ambient = glm::vec3(0.0, 0.0, 0.0);
-	mat.diffuse = glm::vec3(0.5, 0.0, 0.0);
-	mat.specular = glm::vec3(0.7, 0.6, 0.6);
-	Material mat2;
-	mat2.ambient = glm::vec3(1.0f, 0.5f, 0.31f);
-	mat2.diffuse = glm::vec3(1.0f, 0.5f, 0.31f);
-	mat2.specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	
 	Material gold;
 	gold.ambient = glm::vec3(0.24725, 0.1995, 0.0745);
 	gold.diffuse = glm::vec3(0.75164, 0.60648, 0.22648);
 	gold.specular = glm::vec3(0.628281, 0.555802, 0.366065);
+	gold.shininess = 0.4 * 128;
 
 	Shader* shader2 = new Shader(camera, light);
 	Shader* shader = new Shader(camera, light);
@@ -109,11 +102,11 @@ void Window::drawContent()
 	k->rotate('z', 30.0);
 	
 
-	Model* model2 = new Model(mat2);
+	Model* model2 = new Model(gold);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
 
-	Model* model3 = new Model(mat2);
+	Model* model3 = new Model(gold);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	
@@ -125,9 +118,6 @@ void Window::drawContent()
 		circle->draw(model);
 		circle->draw(model2);
 		circle->draw(model3);
-		
-		//light->setLightPosition(glm::vec4(0.02f, 0.0, 0.0, 0.0));
-		//light->setLightPosition(2.0);
 		
 		
 		glfwPollEvents();

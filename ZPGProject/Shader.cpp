@@ -24,6 +24,7 @@ const char* fragment_shader =
 "uniform vec3 materialAmbient;"
 "uniform vec3 materialDiffuse;"
 "uniform vec3 materialSpecular;"
+"uniform float shininess;"
 "out vec4 frag_colour;"
 "in vec4 ex_worldPosition;"
 "in vec3 ex_worldNormal;"
@@ -34,7 +35,7 @@ const char* fragment_shader =
 "     vec4 ambient = vec4( 0.2f, 0.2f, 0.2f, 1.0) * vec4(materialAmbient, 1.0);"
 "     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
 "     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
-"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),51.0);"
+"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0), shininess);"
 "     vec4 specular = vec4(1.0) * (dot_product2 * vec4(materialSpecular, 1.0));"
 "     frag_colour = ambient + diffuse + specular;"
 "}";
@@ -112,6 +113,9 @@ void Shader::updateMaterial(Material mat)
 
 	GLint specular = glGetUniformLocation(shaderProgram, "materialSpecular");
 	glProgramUniform3f(shaderProgram, specular, mat.specular.x, mat.specular.y, mat.specular.z);
+
+	GLint shininess = glGetUniformLocation(shaderProgram, "shininess");
+	glProgramUniform1f(shaderProgram, shininess, mat.shininess);
 
 }
 
