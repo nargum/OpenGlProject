@@ -13,7 +13,7 @@ const char* vertex_shader =
 "void main () {"
 "     gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vec4 (vp, 1.0);"
 "     ex_worldPosition = modelMatrix * vec4 (vp, 1.0);"
-"     ex_worldNormal = transpose(inverse(mat3(modelMatrix))) * normal;"
+"     ex_worldNormal = normalize(transpose(inverse(mat3(modelMatrix))) * normal);"
 "}";
 
 const char* fragment_shader =
@@ -30,12 +30,12 @@ const char* fragment_shader =
 "void main () {"
 "     vec4 lightDirection = normalize(lightPosition - ex_worldPosition);"
 "     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
-"     vec4 diffuse = (dot_product * vec4(materialDiffuse, 1.0)) * lightColor;"
-"     vec4 ambient = vec4( 0.1, 0.1, 0.1, 1.0) * vec4(materialAmbient, 1.0);"
+"     vec4 diffuse = dot_product * vec4(materialDiffuse, 1.0);"
+"     vec4 ambient = vec4( 0.2f, 0.2f, 0.2f, 1.0) * vec4(materialAmbient, 1.0);"
 "     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
 "     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
-"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),10);"
-"     vec4 specular = (dot_product2 * vec4(materialSpecular, 1.0)) * lightColor;"
+"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0),51.0);"
+"     vec4 specular = vec4(1.0) * (dot_product2 * vec4(materialSpecular, 1.0));"
 "     frag_colour = ambient + diffuse + specular;"
 "}";
 
@@ -112,6 +112,7 @@ void Shader::updateMaterial(Material mat)
 
 	GLint specular = glGetUniformLocation(shaderProgram, "materialSpecular");
 	glProgramUniform3f(shaderProgram, specular, mat.specular.x, mat.specular.y, mat.specular.z);
+
 }
 
 void Shader::useProgram()

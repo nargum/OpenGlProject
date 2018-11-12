@@ -72,14 +72,18 @@ void Window::drawContent()
 	this->camera = camera;
 	Light* light = new Light();
 	Material mat;
-	mat.ambient = glm::vec3(0.2125f, 0.1275f, 0.054f);
-	mat.diffuse = glm::vec3(0.714f, 0.4284f, 0.18144f);
-	mat.specular = glm::vec3(0.393548f, 0.271906f, 0.166721f);
-
+	mat.ambient = glm::vec3(0.0, 0.0, 0.0);
+	mat.diffuse = glm::vec3(0.5, 0.0, 0.0);
+	mat.specular = glm::vec3(0.7, 0.6, 0.6);
 	Material mat2;
-	mat2.ambient = glm::vec3(0.0215f, 0.1745f, 0.0215f);
-	mat2.diffuse = glm::vec3(0.07568f, 0.61424f, 0.07568f);
-	mat2.specular = glm::vec3(0.633f, 0.727811f, 0.633f);
+	mat2.ambient = glm::vec3(1.0f, 0.5f, 0.31f);
+	mat2.diffuse = glm::vec3(1.0f, 0.5f, 0.31f);
+	mat2.specular = glm::vec3(0.5f, 0.5f, 0.5f);
+	
+	Material gold;
+	gold.ambient = glm::vec3(0.24725, 0.1995, 0.0745);
+	gold.diffuse = glm::vec3(0.75164, 0.60648, 0.22648);
+	gold.specular = glm::vec3(0.628281, 0.555802, 0.366065);
 
 	Shader* shader2 = new Shader(camera, light);
 	Shader* shader = new Shader(camera, light);
@@ -91,15 +95,15 @@ void Window::drawContent()
 	loader->loadShaders();
 
 	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
-	Model* k = new Model(mat);
+	Model* k = new Model(gold);
 	
 
 
 	Object * suzi = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
-	Model* model = new Model(mat2);
+	Model* model = new Model(gold);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
-	model->scale(0.9);
-	;
+	model->scale(0.6);
+	
 
 	k->translate(glm::vec3(-1.f, 0.f, 0.f));
 	k->rotate('z', 30.0);

@@ -4,7 +4,7 @@
 
 Light::Light()
 {
-	lightPosition = glm::vec4(5.0, 0.0, 2.0, 1.0);
+	lightPosition = glm::vec4(2.0, 0.0, 2.0, 1.0);
 	lightColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 	publishEvent();
 }

@@ -7,6 +7,8 @@ Application::Application()
 	Window* window = new Window(800, 600);
 	this->window = window;
 
+	setupApplication();
+
 	glfwMakeContextCurrent(window->getWindow());
 	glfwSwapInterval(1);
 
@@ -22,6 +24,13 @@ Application::Application()
 
 	window->drawContent();
 	window->destroyWindow();
+}
+
+void Application::setupApplication()
+{
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_RESCALE_NORMAL);
 }
 
 

@@ -29,5 +29,6 @@ private:
 	Application();
 	Window* window;
 	static Application* instance;
+	void setupApplication();
 };
 
