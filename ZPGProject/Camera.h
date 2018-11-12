@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include "Listener.h"
+
 class Camera
 {
 public:
