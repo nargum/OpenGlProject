@@ -91,33 +91,33 @@ void Window::drawContent()
 	loader->loadShaders();
 
 	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
-	Model* k = new Model(mat2);
+	Model* k = new Model(mat);
 	
 
 
 	Object * suzi = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 	Model* model = new Model(mat2);
-	suzi->translate(glm::vec3(-2.f, 2.f, 0.f), model);
-	//suzi->scale(0.8, model);
-	//vSphere->rotate('y', 45.0, model);
+	model->translate(glm::vec3(-2.f, 2.f, 0.f));
+	model->scale(0.9);
+	;
 
-	suzi->translate(glm::vec3(-1.f, 0.f, 0.f), k);
-	//suzi->scale(0.8, k);
+	k->translate(glm::vec3(-1.f, 0.f, 0.f));
+	k->rotate('z', 30.0);
+	
 
 	Model* model2 = new Model(mat2);
-	suzi->translate(glm::vec3(-2.f, -2.f, 0.f), model2);
-	//suzi->scale(0.8, model2);
-	//vSphere->rotate('y', -45.0, model2);
+	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
+	
 
 	Model* model3 = new Model(mat2);
-	suzi->translate(glm::vec3(2.f, 2.f, 0.f), model3);
-	//suzi->scale(0.8, model3);
+	model3->translate(glm::vec3(2.f, 2.f, 0.f));
+	
 	
 	while (!glfwWindowShouldClose(window))
 	{
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		circle->draw(k);
+		suzi->draw(k);
 		circle->draw(model);
 		circle->draw(model2);
 		circle->draw(model3);

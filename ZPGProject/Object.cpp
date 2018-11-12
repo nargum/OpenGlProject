@@ -27,7 +27,7 @@ Object::~Object()
 {
 }
 
-void Object::rotate(char axis, float angle, Model* model)
+/*void Object::rotate(char axis, float angle, Model* model)
 {
 	glm::mat4 M = glm::mat4(1.0f);
 	switch (axis) {
@@ -58,7 +58,7 @@ void Object::scale(float scale, Model* model)
 	glm::mat4 M = glm::mat4(1.0f);
 	M = glm::scale(model->getModelMatrix(), glm::vec3(scale));
 	model->setModelMatrix(M);
-}
+}*/
 
 void Object::bindVertexArray()
 {

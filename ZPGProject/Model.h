@@ -15,8 +15,11 @@ public:
 	glm::mat4 getModelMatrix();
 	void setModelMatrix(glm::mat4 modelMatrix);
 	Material getMaterial();
+	void translate(glm::vec3 distance);
+	void scale(float scale);
+	void rotate(char axis, float angle);
 private:
-	glm::mat4 modelMatrix;
 	Material material;
+	glm::mat4 M;
 };
 

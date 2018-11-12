@@ -21,9 +21,9 @@ public:
 	Object(Shader* shader, const Vertex *Vertices, float modelSize, float size);
 	~Object();
 
-	void rotate(char axis, float angle, Model* model);
+	/*void rotate(char axis, float angle, Model* model);
 	void translate(glm::vec3 distance, Model* model);
-	void scale(float scale, Model* model);
+	void scale(float scale, Model* model);*/
 	void bindVertexArray();
 	void draw(Model* model);
 
