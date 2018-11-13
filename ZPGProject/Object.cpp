@@ -67,13 +67,15 @@ void Object::bindVertexArray()
 
 void Object::draw(Model* model)
 {
+	//std::cout << model->getId() << std::endl;
+	//glStencilFunc(GL_ALWAYS, model->getId(), 0xFF);
 	shader->useProgram();
 	bindVertexArray();
 	shader->updateModelMatrix(model->getModelMatrix());
 	shader->updateMaterial(model->getMaterial());
 	shader->updateViewMatrix();
 	shader->updateProjectionMatrix();
-	glStencilFunc(GL_ALWAYS, model->getId(), 0xFF);
+	
 	glDrawArrays(GL_TRIANGLES, 0, modelSize);
 }
 

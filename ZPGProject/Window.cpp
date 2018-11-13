@@ -1,6 +1,6 @@
 #include "Window.h"
 bool shoot = false;
-int sirka = 800;
+int sirka = 600;
 
 Window::Window(int width, int height)
 {
@@ -71,6 +71,11 @@ void Window::drawContent()
 	Camera* camera = new Camera();
 	this->camera = camera;
 	Light* light = new Light();
+
+	GLuint id1 = 1;
+	GLuint id2 = 2;
+	GLuint id3 = 3;
+	GLuint id4 = 4;
 	
 	Material gold;
 	gold.ambient = glm::vec3(0.24725, 0.1995, 0.0745);
@@ -98,8 +103,8 @@ void Window::drawContent()
 
 
 
-	Model* k = new Model(pearl,1);
-	Model* model = new Model(pearl, 2);
+	Model* k = new Model(pearl,id1);
+	Model* model = new Model(pearl, id2);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
@@ -108,11 +113,11 @@ void Window::drawContent()
 	k->rotate('z', 30.0);
 	
 
-	Model* model2 = new Model(gold, 3);
+	Model* model2 = new Model(gold, id3);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
 
-	Model* model3 = new Model(gold, 4);
+	Model* model3 = new Model(gold, id4);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	
@@ -120,9 +125,15 @@ void Window::drawContent()
 	{
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		suzi->draw(k);
+		glStencilFunc(GL_ALWAYS, 2, 0xFF);
 		circle->draw(model);
+		glStencilFunc(GL_ALWAYS, 3, 0xFF);
 		circle->draw(model2);
+		glStencilFunc(GL_ALWAYS, 4, 0xFF);
 		circle->draw(model3);
 		
 		

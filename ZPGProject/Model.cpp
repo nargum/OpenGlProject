@@ -2,7 +2,7 @@
 
 
 
-Model::Model(Material mat, int id)
+Model::Model(Material mat, GLuint id)
 {
 	this->id = id;
 	M = glm::mat4(1.0);
@@ -54,7 +54,7 @@ void Model::rotate(char axis, float angle)
 	}
 }
 
-int Model::getId()
+GLuint Model::getId()
 {
 	return id;
 }
