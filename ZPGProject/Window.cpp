@@ -123,17 +123,15 @@ void Window::drawContent()
 	
 	while (!glfwWindowShouldClose(window))
 	{
-		
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_STENCIL_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		
+		
 		suzi->draw(k);
-		glStencilFunc(GL_ALWAYS, 2, 0xFF);
 		circle->draw(model);
-		glStencilFunc(GL_ALWAYS, 3, 0xFF);
 		circle->draw(model2);
-		glStencilFunc(GL_ALWAYS, 4, 0xFF);
 		circle->draw(model3);
 		
 		
@@ -195,7 +193,7 @@ void Window::cursor_callback(GLFWwindow * window, double x, double y)
 	if (shoot) {
 		GLbyte color[4];
 		GLfloat depth;
-		GLuint index;
+		GLuint indexx;
 
 		GLint X = (GLint)x;
 		GLint Y = (GLint)y;
@@ -204,11 +202,11 @@ void Window::cursor_callback(GLFWwindow * window, double x, double y)
 
 		glReadPixels(X, newy, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
 		glReadPixels(X, newy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-		glReadPixels(X, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+		glReadPixels(X, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &indexx);
 
 		/*printf(Clicked on pixel %d, %d, color % 02hhx % 02hhx % 02hhx % 02hhx, depth
 			%f, stencil index %u\n, x, y, color[0], color[1], color[2], color[3], depth, index);*/
-		printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n", X, Y, color[0], color[1], color[2], color[3], depth, index);
+		printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n", X, Y, color[0], color[1], color[2], color[3], depth, indexx);
 
 		shoot = false;
 	}
