@@ -15,6 +15,7 @@
 #include "Vertex.h"
 #include "Object.h"
 
+class Object;
 class Shader;
 class Model
 {

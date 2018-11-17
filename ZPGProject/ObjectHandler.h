@@ -1,12 +1,15 @@
 #pragma once
+#include "Object.h"
 #include <vector>
-#include "Model.h"
 
+class Object;
 class ObjectHandler
 {
 public:
 	ObjectHandler();
 	~ObjectHandler();
+	void addObject(Object * object);
+	void drawObjects();
 
 private:
 	int index;

@@ -1,14 +1,14 @@
 #include "Object.h"
 
 
-
-Object::Object(Material mat, GLuint id)
+Object::Object(Material mat, Model* model, ObjectHandler* handler)
 {
-	this->id = id;
 	M = glm::mat4(1.0);
 	material = mat;
+	this->model = model;
+	handler->addObject(this);
+	
 }
-
 
 Object::~Object()
 {
@@ -57,4 +57,14 @@ void Object::rotate(char axis, float angle)
 GLuint Object::getId()
 {
 	return id;
+}
+
+void Object::setId(GLuint id)
+{
+	this->id = id;
+}
+
+void Object::draw()
+{
+	model->draw(this);
 }

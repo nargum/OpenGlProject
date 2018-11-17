@@ -5,11 +5,15 @@
 
 #include "Shader.h"
 #include "Object.h"
+#include "Model.h"
+#include "ObjectHandler.h"
 
+class ObjectHandler;
+class Model;
 class Object
 {
 public:
-	Object(Material mat, GLuint id);
+	Object(Material mat, Model* model, ObjectHandler* handler);
 	~Object();
 	glm::mat4 getModelMatrix();
 	void setModelMatrix(glm::mat4 modelMatrix);
@@ -18,9 +22,12 @@ public:
 	void scale(float scale);
 	void rotate(char axis, float angle);
 	GLuint getId();
+	void setId(GLuint id);
+	void draw();
 private:
 	Material material;
 	glm::mat4 M;
 	GLuint id;
+	Model* model;
 };
 

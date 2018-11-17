@@ -15,6 +15,8 @@
 #include "Suzi.h"
 #include "Material.h"
 #include "ShaderLoader.h"
+#include "Object.h"
+#include "ObjectHandler.h"
 
 
 class Window

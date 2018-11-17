@@ -94,6 +94,7 @@ void Window::drawContent()
 	
 
 	ShaderLoader* loader = new ShaderLoader();
+	ObjectHandler* handler = new ObjectHandler();
 	loader->addShader(shader);
 	loader->addShader(shader2);
 	loader->loadShaders();
@@ -102,9 +103,10 @@ void Window::drawContent()
 	Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
-
-	Object* k = new Object(pearl,id1);
-	Object* model = new Object(pearl, id2);
+	//Object* k = new Object(pearl, id1);
+	Object* k = new Object(pearl, suzi, handler);
+	//Object* model = new Object(pearl, id2);
+	Object* model = new Object(pearl, circle, handler);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
@@ -112,12 +114,12 @@ void Window::drawContent()
 	k->translate(glm::vec3(-1.f, 0.f, 0.f));
 	k->rotate('z', 30.0);
 	
-
-	Object* model2 = new Object(gold, id3);
+	//Object* model2 = new Object(gold, id3);
+	Object* model2 = new Object(gold, circle, handler);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
-
-	Object* model3 = new Object(gold, id4);
+	//Object* model3 = new Object(gold, id4);
+	Object* model3 = new Object(gold, circle, handler);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	
@@ -129,10 +131,11 @@ void Window::drawContent()
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 		
 		
-		suzi->draw(k);
+		/*suzi->draw(k);
 		circle->draw(model);
 		circle->draw(model2);
-		circle->draw(model3);
+		circle->draw(model3);*/
+		handler->drawObjects();
 		
 		
 		glfwPollEvents();
