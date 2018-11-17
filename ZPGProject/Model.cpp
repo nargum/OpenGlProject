@@ -1,12 +1,25 @@
 #include "Model.h"
 
-
-
-Model::Model(Material mat, GLuint id)
+Model::Model(Shader* shader, const Vertex *VERTICES, float modelSize, float size)
 {
-	this->id = id;
-	M = glm::mat4(1.0);
-	material = mat;
+	this->modelSize = modelSize;
+	this->shader = shader;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	//this->VBO = VBO;
+	glGenBuffers(1, &VBO); // generate the VBO
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, size, VERTICES,
+		GL_STATIC_DRAW);
+
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+	bindVertexArray();
+	
 }
 
 
@@ -14,47 +27,30 @@ Model::~Model()
 {
 }
 
-glm::mat4 Model::getModelMatrix()
+
+void Model::bindVertexArray()
 {
-	return M;
+	glBindVertexArray(VAO);
 }
 
-void Model::setModelMatrix(glm::mat4 modelMatrix)
+void Model::draw(Object* model)
 {
-	this->M = modelMatrix;
+	//std::cout << model->getId() << std::endl;
+	
+	//glStencilMask(0xFF);
+	shader->useProgram();
+	bindVertexArray();
+	shader->updateModelMatrix(model->getModelMatrix());
+	shader->updateMaterial(model->getMaterial());
+	shader->updateViewMatrix();
+	shader->updateProjectionMatrix();
+	glStencilFunc(GL_ALWAYS, model->getId(), 0xFF);
+	glDrawArrays(GL_TRIANGLES, 0, modelSize);
+	
 }
 
-Material Model::getMaterial()
-{
-	return material;
-}
 
-void Model::translate(glm::vec3 distance)
-{
-	M = glm::translate(M, distance);
-}
 
-void Model::scale(float scale)
-{
-	M = glm::scale(M, glm::vec3(scale));
-}
 
-void Model::rotate(char axis, float angle)
-{
-	switch (axis) {
-	case 'x':
-		M = glm::rotate(M, glm::radians(angle), glm::vec3(1.0f, 0.0f, 0.0f));
-		break;
-	case 'y':
-		M = glm::rotate(M, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-		break;
-	case 'z':
-		M = glm::rotate(M, glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
-		break;
-	}
-}
 
-GLuint Model::getId()
-{
-	return id;
-}
+

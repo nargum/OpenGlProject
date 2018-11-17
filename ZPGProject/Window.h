@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "Object.h"
+#include "Model.h"
 #include "Shader.h"
 #include "Camera.h"
 #include "VSphere.h"

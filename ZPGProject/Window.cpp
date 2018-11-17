@@ -98,13 +98,13 @@ void Window::drawContent()
 	loader->addShader(shader2);
 	loader->loadShaders();
 
-	Object* circle = new Object(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
-	Object * suzi = new Object(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
+	Model* circle = new Model(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
 
-	Model* k = new Model(pearl,id1);
-	Model* model = new Model(pearl, id2);
+	Object* k = new Object(pearl,id1);
+	Object* model = new Object(pearl, id2);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
@@ -113,11 +113,11 @@ void Window::drawContent()
 	k->rotate('z', 30.0);
 	
 
-	Model* model2 = new Model(gold, id3);
+	Object* model2 = new Object(gold, id3);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
 
-	Model* model3 = new Model(gold, id4);
+	Object* model3 = new Object(gold, id4);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	

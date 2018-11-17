@@ -3,36 +3,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <glm/vec3.hpp> // glm::vec3
-#include <glm/vec4.hpp> // glm::vec4
-#include <glm/mat4x4.hpp> // glm::mat4
-#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
-
-#include <iostream>
-#include <vector>
 #include "Shader.h"
-#include "Vertex.h"
-#include "Model.h"
+#include "Object.h"
 
-class Shader;
 class Object
 {
 public:
-	Object(Shader* shader, const Vertex *Vertices, float modelSize, float size);
+	Object(Material mat, GLuint id);
 	~Object();
-
-	/*void rotate(char axis, float angle, Model* model);
-	void translate(glm::vec3 distance, Model* model);
-	void scale(float scale, Model* model);*/
-	void bindVertexArray();
-	void draw(Model* model);
-
+	glm::mat4 getModelMatrix();
+	void setModelMatrix(glm::mat4 modelMatrix);
+	Material getMaterial();
+	void translate(glm::vec3 distance);
+	void scale(float scale);
+	void rotate(char axis, float angle);
+	GLuint getId();
 private:
-	GLuint VAO;
-	GLuint VBO;
-	float modelSize;
-	Shader* shader;
-
+	Material material;
+	glm::mat4 M;
+	GLuint id;
 };
 
