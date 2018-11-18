@@ -20,6 +20,17 @@ void ObjectHandler::addObject(Object * object)
 void ObjectHandler::drawObjects()
 {
 	for (Object* o : objects) {
-		o->draw();
+		if(o->getDrawObject() == true)
+			o->draw();
+	}
+}
+
+void ObjectHandler::destroyObject(int index)
+{
+	for (Object* o : objects) {
+		if (index == o->getId()) {
+			o->setDrawObject(false);
+			break;
+		}
 	}
 }

@@ -43,6 +43,7 @@ private:
 	static Camera* camera;
 	int width;
 	int height;
+	static ObjectHandler* handler;
 	
 };
 

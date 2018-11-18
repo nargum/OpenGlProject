@@ -10,6 +10,7 @@ public:
 	~ObjectHandler();
 	void addObject(Object * object);
 	void drawObjects();
+	void destroyObject(int index);
 
 private:
 	int index;

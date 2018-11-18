@@ -3,11 +3,11 @@
 
 Object::Object(Material mat, Model* model, ObjectHandler* handler)
 {
+	drawObject = true;
 	M = glm::mat4(1.0);
 	material = mat;
 	this->model = model;
 	handler->addObject(this);
-	
 }
 
 Object::~Object()
@@ -67,4 +67,14 @@ void Object::setId(GLuint id)
 void Object::draw()
 {
 	model->draw(this);
+}
+
+bool Object::getDrawObject()
+{
+	return drawObject;
+}
+
+void Object::setDrawObject(bool drawObject)
+{
+	this->drawObject = drawObject;
 }

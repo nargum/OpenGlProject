@@ -35,7 +35,7 @@ Window::Window(int width, int height)
 
 	glfwSetWindowSizeCallback(window, this->window_size_callback);
 	
-
+	//handler = new ObjectHandler();
 }
 
 
@@ -94,7 +94,6 @@ void Window::drawContent()
 	
 
 	ShaderLoader* loader = new ShaderLoader();
-	ObjectHandler* handler = new ObjectHandler();
 	loader->addShader(shader);
 	loader->addShader(shader2);
 	loader->loadShaders();
@@ -196,7 +195,7 @@ void Window::cursor_callback(GLFWwindow * window, double x, double y)
 	if (shoot) {
 		GLbyte color[4];
 		GLfloat depth;
-		GLuint indexx;
+		GLuint index;
 
 		GLint X = (GLint)x;
 		GLint Y = (GLint)y;
@@ -205,11 +204,12 @@ void Window::cursor_callback(GLFWwindow * window, double x, double y)
 
 		glReadPixels(X, newy, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
 		glReadPixels(X, newy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-		glReadPixels(X, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &indexx);
+		glReadPixels(X, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
 
 		/*printf(Clicked on pixel %d, %d, color % 02hhx % 02hhx % 02hhx % 02hhx, depth
 			%f, stencil index %u\n, x, y, color[0], color[1], color[2], color[3], depth, index);*/
-		printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n", X, Y, color[0], color[1], color[2], color[3], depth, indexx);
+		printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n", X, Y, color[0], color[1], color[2], color[3], depth, index);
+		handler->destroyObject(index);
 
 		shoot = false;
 	}

@@ -24,10 +24,13 @@ public:
 	GLuint getId();
 	void setId(GLuint id);
 	void draw();
+	bool getDrawObject();
+	void setDrawObject(bool drawObject);
 private:
 	Material material;
 	glm::mat4 M;
 	GLuint id;
 	Model* model;
+	bool drawObject;
 };
 
