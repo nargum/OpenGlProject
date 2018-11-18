@@ -36,7 +36,6 @@ public:
 	static void window_size_callback(GLFWwindow* window, int width, int height);
 	static void cursor_callback(GLFWwindow *window, double x, double y);
 	static void button_callback(GLFWwindow* window, int button, int action, int mode);
-	
 
 private:
 	GLFWwindow* window = NULL;
@@ -44,6 +43,5 @@ private:
 	int width;
 	int height;
 	static ObjectHandler* handler;
-	
 };
 

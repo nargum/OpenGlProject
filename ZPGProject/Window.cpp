@@ -1,6 +1,7 @@
 #include "Window.h"
-bool shoot = false;
 int sirka = 600;
+double cursorX = 0.0;
+double cursorY = 0.0;
 
 Window::Window(int width, int height)
 {
@@ -191,28 +192,8 @@ void Window::cursor_callback(GLFWwindow * window, double x, double y)
 
 	if (camera->getMoveCamera())
 		camera->moveCursor(x, y);
-
-	if (shoot) {
-		GLbyte color[4];
-		GLfloat depth;
-		GLuint index;
-
-		GLint X = (GLint)x;
-		GLint Y = (GLint)y;
-
-		int newy = (int)sirka - Y - 10;
-
-		glReadPixels(X, newy, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
-		glReadPixels(X, newy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-		glReadPixels(X, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
-
-		/*printf(Clicked on pixel %d, %d, color % 02hhx % 02hhx % 02hhx % 02hhx, depth
-			%f, stencil index %u\n, x, y, color[0], color[1], color[2], color[3], depth, index);*/
-		printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n", X, Y, color[0], color[1], color[2], color[3], depth, index);
-		handler->destroyObject(index);
-
-		shoot = false;
-	}
+	cursorX = x;
+	cursorY = y;
 }
 
 void Window::button_callback(GLFWwindow * window, int button, int action, int mode)
@@ -226,9 +207,25 @@ void Window::button_callback(GLFWwindow * window, int button, int action, int mo
 		camera->firstMouse = true;
 	}
 
-	if (button == 0) {
-		shoot = true;
+	if (button == 0 && action == 1) {
+		GLbyte color[4];
+		GLfloat depth;
+		GLuint index;
+
+		GLint X = (GLint)cursorX;
+		GLint Y = (GLint)cursorY;
+
+		int newy = (int)sirka - Y - 10;
+
+		glReadPixels(X, newy, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+		glReadPixels(X, newy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+		glReadPixels(X, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+
+		printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n", X, Y, color[0], color[1], color[2], color[3], depth, index);
+		handler->destroyObject(index);
+
 	}
 }
+
 
 
