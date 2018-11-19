@@ -7,6 +7,7 @@
 #include "Object.h"
 #include "Model.h"
 #include "ObjectHandler.h"
+#include "Texture.h"
 
 class ObjectHandler;
 class Model;
@@ -14,6 +15,7 @@ class Object
 {
 public:
 	Object(Material mat, Model* model, ObjectHandler* handler);
+	Object(Texture* tex, Model* model, ObjectHandler* handler);
 	~Object();
 	glm::mat4 getModelMatrix();
 	void setModelMatrix(glm::mat4 modelMatrix);
@@ -32,5 +34,6 @@ private:
 	GLuint id;
 	Model* model;
 	bool drawObject;
+	Texture* texture;
 };
 

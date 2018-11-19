@@ -10,6 +10,15 @@ Object::Object(Material mat, Model* model, ObjectHandler* handler)
 	handler->addObject(this);
 }
 
+Object::Object(Texture* tex, Model * model, ObjectHandler * handler)
+{
+	drawObject = true;
+	M = glm::mat4(1.0);
+	texture = tex;
+	this->model = model;
+	handler->addObject(this);
+}
+
 Object::~Object()
 {
 }

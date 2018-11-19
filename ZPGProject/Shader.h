@@ -12,11 +12,14 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Material.h"
+#include <string>
+#include <fstream>
+using namespace std;
 
 class Shader : Listener
 {
 public:
-	Shader(Camera* camera, Light* light);
+	Shader(Camera* camera, Light* light, std::string vertexShader, std::string fragmentShader);
 	~Shader();
 
 	void updateViewMatrix();
@@ -32,9 +35,12 @@ public:
 private:
 	GLuint vertexShader;
 	GLuint fragmentShader;
+	const char* vertex_shader;
+	const char* fragment_shader;
 	GLuint shaderProgram;
 	Camera* camera;
 	Light* light;
 	void checkShaderCompilation();
+	string loadFile(std::string fileName);
 };
 

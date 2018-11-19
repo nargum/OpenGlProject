@@ -1,7 +1,18 @@
-#include "Window.h"
+﻿#include "Window.h"
 int sirka = 600;
 double cursorX = 0.0;
 double cursorY = 0.0;
+
+const float plain[] = {
+	//vrchol, normála, uv souřadnice
+	1.0f, 0.0f, 1.0f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,
+	1.0f, 0.0f,-1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
+	-1.0f, 0.0f,-1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
+
+	-1.0f, 0.0f, 1.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,
+	1.0f, 0.0f, 1.0f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,
+	-1.0f, 0.0f,-1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f
+};
 
 Window::Window(int width, int height)
 {
@@ -68,6 +79,7 @@ void Window::destroyWindow()
 
 void Window::drawContent()
 {
+	
 	//glEnable(GL_DEPTH_TEST);
 	Camera* camera = new Camera();
 	this->camera = camera;
@@ -90,8 +102,10 @@ void Window::drawContent()
 	pearl.specular = glm::vec3(0.296648, 0.296648, 0.296648);
 	pearl.shininess = 0.088 * 128;
 
-	Shader* shader2 = new Shader(camera, light);
-	Shader* shader = new Shader(camera, light);
+	std::string v = "..\\shaders\\vertexShader.txt";
+	std::string f = "..\\shaders\\fragmentShader.txt";
+	Shader* shader2 = new Shader(camera, light, v, f);
+	Shader* shader = new Shader(camera, light, v, f);
 	
 
 	ShaderLoader* loader = new ShaderLoader();
@@ -99,12 +113,13 @@ void Window::drawContent()
 	loader->addShader(shader2);
 	loader->loadShaders();
 
+	Model* triangle = new Model(shader, plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
 	Model* circle = new Model(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
 	Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
 	//Object* k = new Object(pearl, id1);
-	Object* k = new Object(pearl, suzi, handler);
+	Object* k = new Object(pearl, triangle, handler);
 	//Object* model = new Object(pearl, id2);
 	Object* model = new Object(pearl, circle, handler);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));

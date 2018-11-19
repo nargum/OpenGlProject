@@ -1,7 +1,7 @@
 #include "Shader.h"
 
 
-const char* vertex_shader =
+/*const char* vertex_shader =
 "#version 330\n"
 "uniform mat4 viewMatrix;"
 "uniform mat4 modelMatrix;"
@@ -38,10 +38,14 @@ const char* fragment_shader =
 "     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0), shininess);"
 "     vec4 specular = vec4(1.0) * (dot_product2 * vec4(materialSpecular, 1.0));"
 "     frag_colour = ambient + diffuse + specular;"
-"}";
+"}";*/
 
-Shader::Shader(Camera* camera, Light* light)
+Shader::Shader(Camera* camera, Light* light, std::string vertex_shader, std::string fragment_shader)
 {
+	string v = loadFile(vertex_shader);
+	string f = loadFile(fragment_shader);
+	this->vertex_shader = v.c_str();
+	this->fragment_shader = f.c_str();
 	glEnable(GL_DEPTH_TEST);
 	this->camera = camera;
 	this->light = light;
@@ -50,10 +54,10 @@ Shader::Shader(Camera* camera, Light* light)
 	light->publishEvent();
 	//create and compile shaders
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertex_shader, NULL);
+	glShaderSource(vertexShader, 1, &this->vertex_shader, NULL);
 	glCompileShader(vertexShader);
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragment_shader, NULL);
+	glShaderSource(fragmentShader, 1, &this->fragment_shader, NULL);
 	glCompileShader(fragmentShader);
 	shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, fragmentShader);
@@ -148,5 +152,26 @@ void Shader::checkShaderCompilation()
 		fprintf(stderr, "Linker failure: %s\n", strInfoLog);
 		delete[] strInfoLog;
 	}
+}
+
+string Shader::loadFile(std::string fileName)
+{
+	std::string line;
+	std::string text;
+	bool first = true;
+
+	std::ifstream myFile(fileName);
+	if (myFile.is_open()) {
+		while (std::getline(myFile, line)) {
+			
+				line += '\n';
+				text += line;
+			
+		}
+
+		myFile.close();
+	}
+
+	return text;
 }
 
