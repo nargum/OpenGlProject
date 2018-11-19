@@ -21,6 +21,7 @@ class Model
 {
 public:
 	Model(Shader* shader, const Vertex *Vertices, float modelSize, float size);
+	Model(Shader* shader, const float *Vertices, float modelSize, float size);
 	~Model();
 	void bindVertexArray();
 	void draw(Object* model);

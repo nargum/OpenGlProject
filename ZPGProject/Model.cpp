@@ -22,6 +22,29 @@ Model::Model(Shader* shader, const Vertex *VERTICES, float modelSize, float size
 	
 }
 
+Model::Model(Shader * shader, const float * VERTICES, float modelSize, float size)
+{
+	this->modelSize = modelSize;
+	this->shader = shader;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+
+	//this->VBO = VBO;
+	glGenBuffers(1, &VBO); // generate the VBO
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, size, VERTICES,
+		GL_STATIC_DRAW);
+
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(6 * sizeof(float)));
+	bindVertexArray();
+}
+
 
 Model::~Model()
 {
