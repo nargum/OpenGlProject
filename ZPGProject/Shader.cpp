@@ -1,45 +1,6 @@
 #include "Shader.h"
 
 
-/*const char* vertex_shader =
-"#version 330\n"
-"uniform mat4 viewMatrix;"
-"uniform mat4 modelMatrix;"
-"uniform mat4 projectionMatrix;"
-"layout(location=0) in vec3 vp;"
-"layout(location=1) in vec3 normal;"
-"out vec4 ex_worldPosition;"
-"out vec3 ex_worldNormal;"
-"void main () {"
-"     gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vec4 (vp, 1.0);"
-"     ex_worldPosition = modelMatrix * vec4 (vp, 1.0);"
-"     ex_worldNormal = normalize(transpose(inverse(mat3(modelMatrix))) * normal);"
-"}";
-
-const char* fragment_shader =
-"#version 330\n"
-"uniform vec4 lightPosition;"
-"uniform vec4 lightColor;"
-"uniform vec3 viewPosition;"
-"uniform vec3 materialAmbient;"
-"uniform vec3 materialDiffuse;"
-"uniform vec3 materialSpecular;"
-"uniform float shininess;"
-"out vec4 frag_colour;"
-"in vec4 ex_worldPosition;"
-"in vec3 ex_worldNormal;"
-"void main () {"
-"     vec4 lightDirection = normalize(lightPosition - ex_worldPosition);"
-"     float dot_product = max(dot(lightDirection, normalize(vec4(ex_worldNormal, 1.0))), 0.0);"
-"     vec4 diffuse = dot_product * vec4(materialDiffuse, 1.0);"
-"     vec4 ambient = vec4( 0.2f, 0.2f, 0.2f, 1.0) * vec4(materialAmbient, 1.0);"
-"     vec3 viewDirection = normalize(viewPosition - vec3(ex_worldPosition));"
-"     vec3 reflectDirection = reflect(vec3(-lightDirection), ex_worldNormal);"
-"     float dot_product2 = pow(max(dot(viewDirection, reflectDirection), 0.0), shininess);"
-"     vec4 specular = vec4(1.0) * (dot_product2 * vec4(materialSpecular, 1.0));"
-"     frag_colour = ambient + diffuse + specular;"
-"}";*/
-
 Shader::Shader(Camera* camera, Light* light, std::string vertex_shader, std::string fragment_shader)
 {
 	string v = loadFile(vertex_shader);
@@ -121,6 +82,13 @@ void Shader::updateMaterial(Material mat)
 	GLint shininess = glGetUniformLocation(shaderProgram, "shininess");
 	glProgramUniform1f(shaderProgram, shininess, mat.shininess);
 
+}
+
+void Shader::updateTexture(Texture* texture)
+{
+	texture->bindTexture();
+	GLint uniformID = glGetUniformLocation(shaderProgram, "textureUnitID");
+	glUniform1i(uniformID, 0);
 }
 
 void Shader::useProgram()

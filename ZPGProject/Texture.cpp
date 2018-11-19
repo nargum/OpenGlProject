@@ -4,7 +4,7 @@
 
 Texture::Texture()
 {
-	textureID = SOIL_load_OGL_texture("test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+	textureID = SOIL_load_OGL_texture("..\\textures\\test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 }
 
 

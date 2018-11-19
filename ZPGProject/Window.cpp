@@ -84,11 +84,6 @@ void Window::drawContent()
 	Camera* camera = new Camera();
 	this->camera = camera;
 	Light* light = new Light();
-
-	GLuint id1 = 1;
-	GLuint id2 = 2;
-	GLuint id3 = 3;
-	GLuint id4 = 4;
 	
 	Material gold;
 	gold.ambient = glm::vec3(0.24725, 0.1995, 0.0745);
@@ -102,10 +97,10 @@ void Window::drawContent()
 	pearl.specular = glm::vec3(0.296648, 0.296648, 0.296648);
 	pearl.shininess = 0.088 * 128;
 
-	std::string v = "..\\shaders\\vertexShader.txt";
-	std::string f = "..\\shaders\\fragmentShader.txt";
-	Shader* shader2 = new Shader(camera, light, v, f);
-	Shader* shader = new Shader(camera, light, v, f);
+	Texture* tex = new Texture();
+
+	Shader* shader2 = new Shader(camera, light, "..\\shaders\\textureVertex.txt", "..\\shaders\\textureFragment.txt");
+	Shader* shader = new Shader(camera, light, "..\\shaders\\vertexShader.txt", "..\\shaders\\fragmentShader.txt");
 	
 
 	ShaderLoader* loader = new ShaderLoader();
@@ -113,15 +108,15 @@ void Window::drawContent()
 	loader->addShader(shader2);
 	loader->loadShaders();
 
-	Model* triangle = new Model(shader, plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
-	Model* circle = new Model(shader2, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	Model* triangle = new Model(shader2, plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
+	Model* circle = new Model(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
 	Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
 	//Object* k = new Object(pearl, id1);
-	Object* k = new Object(pearl, triangle, handler);
+	Object* k = new Object(pearl, triangle, handler,tex);
 	//Object* model = new Object(pearl, id2);
-	Object* model = new Object(pearl, circle, handler);
+	Object* model = new Object(pearl, circle, handler,tex);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
@@ -130,11 +125,11 @@ void Window::drawContent()
 	k->rotate('z', 30.0);
 	
 	//Object* model2 = new Object(gold, id3);
-	Object* model2 = new Object(gold, circle, handler);
+	Object* model2 = new Object(gold, circle, handler,tex);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
 	//Object* model3 = new Object(gold, id4);
-	Object* model3 = new Object(gold, circle, handler);
+	Object* model3 = new Object(gold, circle, handler,tex);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	
@@ -145,13 +140,7 @@ void Window::drawContent()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 		
-		
-		/*suzi->draw(k);
-		circle->draw(model);
-		circle->draw(model2);
-		circle->draw(model3);*/
 		handler->drawObjects();
-		
 		
 		glfwPollEvents();
 		glfwSwapBuffers(window);

@@ -1,8 +1,9 @@
 #include "Object.h"
 
 
-Object::Object(Material mat, Model* model, ObjectHandler* handler)
+Object::Object(Material mat, Model* model, ObjectHandler* handler, Texture* tex)
 {
+	texture = tex;
 	drawObject = true;
 	M = glm::mat4(1.0);
 	material = mat;
@@ -86,4 +87,9 @@ bool Object::getDrawObject()
 void Object::setDrawObject(bool drawObject)
 {
 	this->drawObject = drawObject;
+}
+
+Texture * Object::getTexture()
+{
+	return texture;
 }

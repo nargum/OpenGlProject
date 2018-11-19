@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Material.h"
+#include "Texture.h"
 #include <string>
 #include <fstream>
 using namespace std;
@@ -19,7 +20,7 @@ using namespace std;
 class Shader : Listener
 {
 public:
-	Shader(Camera* camera, Light* light, std::string vertexShader, std::string fragmentShader);
+	Shader(Camera* camera, Light* light, string vertexShader, string fragmentShader);
 	~Shader();
 
 	void updateViewMatrix();
@@ -27,6 +28,7 @@ public:
 	void updateLight();
 	void updateCameraPosition();
 	void updateMaterial(Material mat);
+	void updateTexture(Texture* texture);
 	void useProgram();
 	void onEvent();
 	void onLightEvent();

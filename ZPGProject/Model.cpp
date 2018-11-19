@@ -67,6 +67,7 @@ void Model::draw(Object* model)
 	shader->updateMaterial(model->getMaterial());
 	shader->updateViewMatrix();
 	shader->updateProjectionMatrix();
+	shader->updateTexture(model->getTexture());
 	glStencilFunc(GL_ALWAYS, model->getId(), 0xFF);
 	glDrawArrays(GL_TRIANGLES, 0, modelSize);
 	
