@@ -100,41 +100,37 @@ void Window::drawContent()
 	Texture* tex = new Texture();
 
 	Shader* shader2 = new Shader(camera, light, "..\\shaders\\textureVertex.txt", "..\\shaders\\textureFragment.txt");
-	Shader* shader = new Shader(camera, light, "..\\shaders\\vertexShader.txt", "..\\shaders\\fragmentShader.txt");
+	//Shader* shader = new Shader(camera, light, "..\\shaders\\vertexShader.txt", "..\\shaders\\fragmentShader.txt");
 	
 
 	ShaderLoader* loader = new ShaderLoader();
-	loader->addShader(shader);
+	//loader->addShader(shader);
 	loader->addShader(shader2);
 	loader->loadShaders();
 
 	Model* triangle = new Model(shader2, plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
-	Model* circle = new Model(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
-	Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
+	//Model* circle = new Model(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	//Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
-	//Object* k = new Object(pearl, id1);
 	Object* k = new Object(pearl, triangle, handler,tex);
-	//Object* model = new Object(pearl, id2);
-	Object* model = new Object(pearl, circle, handler,tex);
+	k->rotate('x', 90.0);
+	//k->scale(3.0);
+
+	/*Object* model = new Object(pearl, circle, handler,tex);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
-
-	k->translate(glm::vec3(-1.f, 0.f, 0.f));
-	k->rotate('z', 30.0);
-	
-	//Object* model2 = new Object(gold, id3);
 	Object* model2 = new Object(gold, circle, handler,tex);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
-	//Object* model3 = new Object(gold, id4);
 	Object* model3 = new Object(gold, circle, handler,tex);
-	model3->translate(glm::vec3(2.f, 2.f, 0.f));
+	model3->translate(glm::vec3(2.f, 2.f, 0.f));*/
 	
 	
 	while (!glfwWindowShouldClose(window))
 	{
+		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_STENCIL_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
