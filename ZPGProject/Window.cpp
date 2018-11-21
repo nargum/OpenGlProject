@@ -97,27 +97,33 @@ void Window::drawContent()
 	pearl.specular = glm::vec3(0.296648, 0.296648, 0.296648);
 	pearl.shininess = 0.088 * 128;
 
-	Texture* tex = new Texture();
+	Texture* tex = new Texture("..\\textures\\wall.jpg");
+	Texture* brick = new Texture("..\\textures\\brick.jpg");
 
 	Shader* shader2 = new Shader(camera, light, "..\\shaders\\textureVertex.txt", "..\\shaders\\textureFragment.txt");
-	//Shader* shader = new Shader(camera, light, "..\\shaders\\vertexShader.txt", "..\\shaders\\fragmentShader.txt");
+	Shader* shader = new Shader(camera, light, "..\\shaders\\vertexShader.txt", "..\\shaders\\fragmentShader.txt");
 	
 
 	ShaderLoader* loader = new ShaderLoader();
-	//loader->addShader(shader);
+	loader->addShader(shader);
 	loader->addShader(shader2);
 	loader->loadShaders();
 
-	Model* triangle = new Model(shader2, plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
-	//Model* circle = new Model(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	Model* square = new Model(shader2, plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
+	Model* circle = new Model(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
 	//Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
-	Object* k = new Object(pearl, triangle, handler,tex);
+	Object* k = new Object(pearl, square, handler,tex);
 	k->rotate('x', 90.0);
+	k->translate(glm::vec3(-3.0, 0.0, 0.0));
 	//k->scale(3.0);
 
-	/*Object* model = new Object(pearl, circle, handler,tex);
+	Object* k2 = new Object(pearl, square, handler, brick);
+	k2->rotate('x', 90.0);
+	k2->translate(glm::vec3(3.0, 0.0, 0.0));
+
+	Object* model = new Object(pearl, circle, handler,tex);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
@@ -125,7 +131,7 @@ void Window::drawContent()
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
 	Object* model3 = new Object(gold, circle, handler,tex);
-	model3->translate(glm::vec3(2.f, 2.f, 0.f));*/
+	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	
 	while (!glfwWindowShouldClose(window))
