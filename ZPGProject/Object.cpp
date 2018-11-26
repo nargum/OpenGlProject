@@ -1,24 +1,17 @@
 #include "Object.h"
 
 
-Object::Object(Material mat, Model* model, ObjectHandler* handler, Texture* tex)
+Object::Object(Material mat, Texture* tex, Model* model, ObjectHandler* handler, Shader* shader)
 {
 	texture = tex;
-	drawObject = true;
-	M = glm::mat4(1.0);
-	material = mat;
-	this->model = model;
-	handler->addObject(this);
+	this->shader = shader;
+	init(mat, model, handler);
 }
 
-Object::Object(Texture* tex, Model * model, ObjectHandler * handler)
+/*Object::Object(Material mat, Model * model, ObjectHandler * handler)
 {
-	drawObject = true;
-	M = glm::mat4(1.0);
-	texture = tex;
-	this->model = model;
-	handler->addObject(this);
-}
+	init(mat, model, handler);
+}*/
 
 Object::~Object()
 {
@@ -76,7 +69,16 @@ void Object::setId(GLuint id)
 
 void Object::draw()
 {
-	model->draw(this);
+	//model->draw(this);
+	shader->useProgram();
+	model->bindVertexArray();
+	shader->updateModelMatrix(this->getModelMatrix());
+	shader->updateMaterial(this->getMaterial());
+	shader->updateViewMatrix();
+	shader->updateProjectionMatrix();
+	shader->updateTexture(this->getTexture());
+	glStencilFunc(GL_ALWAYS, this->getId(), 0xFF);
+	glDrawArrays(GL_TRIANGLES, 0, model->getModelSize());
 }
 
 bool Object::getDrawObject()
@@ -92,4 +94,13 @@ void Object::setDrawObject(bool drawObject)
 Texture * Object::getTexture()
 {
 	return texture;
+}
+
+void Object::init(Material mat, Model * model, ObjectHandler * handler)
+{
+	drawObject = true;
+	M = glm::mat4(1.0);
+	material = mat;
+	this->model = model;
+	handler->addObject(this);
 }

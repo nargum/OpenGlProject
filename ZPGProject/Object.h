@@ -14,8 +14,8 @@ class Model;
 class Object
 {
 public:
-	Object(Material mat, Model* model, ObjectHandler* handler, Texture* tex);
-	Object(Texture* tex, Model* model, ObjectHandler* handler);
+	Object(Material mat, Texture* tex, Model* model, ObjectHandler* handler, Shader* shader);
+	//Object(Material mat, Model* model, ObjectHandler* handler);
 	~Object();
 	glm::mat4 getModelMatrix();
 	void setModelMatrix(glm::mat4 modelMatrix);
@@ -36,5 +36,7 @@ private:
 	Model* model;
 	bool drawObject;
 	Texture* texture;
+	Shader* shader;
+	void init(Material mat, Model* model, ObjectHandler* handler);
 };
 

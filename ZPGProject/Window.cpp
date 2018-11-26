@@ -109,28 +109,28 @@ void Window::drawContent()
 	loader->addShader(shader2);
 	loader->loadShaders();
 
-	Model* square = new Model(shader2, plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
-	Model* circle = new Model(shader, VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	Model* square = new Model(plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
+	Model* circle = new Model(VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
 	//Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
-	Object* k = new Object(pearl, square, handler,tex);
+	Object* k = new Object(pearl, tex, square, handler, shader2);
 	k->rotate('x', 90.0);
 	k->translate(glm::vec3(-3.0, 0.0, 0.0));
 	//k->scale(3.0);
 
-	Object* k2 = new Object(pearl, square, handler, brick);
+	Object* k2 = new Object(pearl, brick, square, handler, shader2);
 	k2->rotate('x', 90.0);
 	k2->translate(glm::vec3(3.0, 0.0, 0.0));
 
-	Object* model = new Object(pearl, circle, handler,tex);
+	Object* model = new Object(pearl, brick, circle, handler, shader);
 	model->translate(glm::vec3(-2.f, 2.f, 0.f));
 	model->scale(0.6);
 	
-	Object* model2 = new Object(gold, circle, handler,tex);
+	Object* model2 = new Object(gold, brick, circle, handler, shader);
 	model2->translate(glm::vec3(-2.f, -2.f, 0.f));
 	
-	Object* model3 = new Object(gold, circle, handler,tex);
+	Object* model3 = new Object(gold, brick, circle, handler, shader);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
 	
 	

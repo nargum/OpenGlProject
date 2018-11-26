@@ -20,17 +20,18 @@ class Shader;
 class Model
 {
 public:
-	Model(Shader* shader, const Vertex *Vertices, float modelSize, float size);
-	Model(Shader* shader, const float *Vertices, float modelSize, float size);
+	Model(const Vertex *Vertices, float modelSize, float size);
+	Model(const float *Vertices, float modelSize, float size);
 	~Model();
 	void bindVertexArray();
-	void draw(Object* model);
+	float getModelSize();
+	//void draw(Object* model);
 
 private:
 	GLuint VAO;
 	GLuint VBO;
 	float modelSize;
-	Shader* shader;
+	//Shader* shader;
 
 };
 

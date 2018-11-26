@@ -1,9 +1,9 @@
 #include "Model.h"
 
-Model::Model(Shader* shader, const Vertex *VERTICES, float modelSize, float size)
+Model::Model(const Vertex *VERTICES, float modelSize, float size)
 {
 	this->modelSize = modelSize;
-	this->shader = shader;
+	//this->shader = shader;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glEnableVertexAttribArray(0);
@@ -22,10 +22,10 @@ Model::Model(Shader* shader, const Vertex *VERTICES, float modelSize, float size
 	
 }
 
-Model::Model(Shader * shader, const float * VERTICES, float modelSize, float size)
+Model::Model(const float * VERTICES, float modelSize, float size)
 {
 	this->modelSize = modelSize;
-	this->shader = shader;
+	//this->shader = shader;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glEnableVertexAttribArray(0);
@@ -56,7 +56,12 @@ void Model::bindVertexArray()
 	glBindVertexArray(VAO);
 }
 
-void Model::draw(Object* model)
+float Model::getModelSize()
+{
+	return modelSize;
+}
+
+/*void Model::draw(Object* model)
 {
 	//std::cout << model->getId() << std::endl;
 	
@@ -71,7 +76,7 @@ void Model::draw(Object* model)
 	glStencilFunc(GL_ALWAYS, model->getId(), 0xFF);
 	glDrawArrays(GL_TRIANGLES, 0, modelSize);
 	
-}
+}*/
 
 
 
