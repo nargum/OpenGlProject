@@ -54,6 +54,9 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="Suzi.h">
       <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
