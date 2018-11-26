@@ -124,7 +124,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Listener.cpp" />
-    <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ObjectHandler.cpp" />
@@ -136,11 +135,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AssimpVertex.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectHandler.h" />
