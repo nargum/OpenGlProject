@@ -18,7 +18,6 @@
 #include "Shader.h"
 #include "Vertex.h"
 #include "Object.h"
-#include "AssimpVertex.h"
 #include <string>
 
 using namespace glm;
@@ -34,14 +33,12 @@ public:
 	~Model();
 	void bindVertexArray();
 	float getModelSize();
-	//void draw(Object* model);
 
 private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint IBO;
 	float modelSize;
-	//Shader* shader;
 
 };
 

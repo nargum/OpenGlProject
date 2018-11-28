@@ -16,8 +16,8 @@ Model::Model(const Vertex *VERTICES, float modelSize, float size)
 		GL_STATIC_DRAW);
 
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(3 * sizeof(float)));
 	bindVertexArray();
 	
 }
@@ -78,10 +78,11 @@ Model::Model(std::string fileName)
 
 		for (unsigned int i = 0; i < scene->mNumMeshes; i++)                      //Objects
 		{
+			this->modelSize = 0;
 			aiMesh* mesh = scene->mMeshes[i];
 
-			AssimpVertex* pVertices = new AssimpVertex[mesh->mNumVertices];
-			std::memset(pVertices, 0, sizeof(AssimpVertex)* mesh->mNumVertices);
+			Vertex* pVertices = new Vertex[mesh->mNumVertices];
+			std::memset(pVertices, 0, sizeof(Vertex)* mesh->mNumVertices);
 
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 			{
@@ -111,7 +112,7 @@ Model::Model(std::string fileName)
 
 			}
 
-			unsigned int* pIndices = nullptr;
+			/*unsigned int* pIndices = nullptr;
 
 			if (mesh->HasFaces())
 			{
@@ -123,41 +124,34 @@ Model::Model(std::string fileName)
 					pIndices[i * 3 + 1] = mesh->mFaces[i].mIndices[1];
 					pIndices[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
 				}
-			}
+			}*/
 
-
+			this->modelSize = sizeof(pVertices) / sizeof(*pVertices);
+			//this->shader = shader;
 			glGenVertexArrays(1, &VAO);
-			glGenBuffers(1, &VBO);
-			glGenBuffers(1, &IBO);
-
 			glBindVertexArray(VAO);
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)* mesh->mNumVertices, pVertices, GL_STATIC_DRAW);
-
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(0));
 			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(3 * sizeof(GLfloat)));
 			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(6 * sizeof(GLfloat)));
 			glEnableVertexAttribArray(3);
-			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(8 * sizeof(GLfloat)));
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)* mesh->mNumFaces * 3, pIndices, GL_STATIC_DRAW);
+			//this->VBO = VBO;
+			glGenBuffers(1, &VBO); // generate the VBO
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(pVertices), pVertices,
+				GL_STATIC_DRAW);
 
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindVertexArray(VAO);
 
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(3 * sizeof(float)));
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(6 * sizeof(float)));
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(8 * sizeof(float)));
+			bindVertexArray();
 			GLuint err = glGetError();
 			if (err != GL_NO_ERROR)
 			{
-				std::cout << "GL ERROR: " << err << std::endl; return;
-			} modelSize = mesh->mNumFaces * 3;
-
-			delete[] pVertices;
-			delete[] pIndices;
+				std::cout << "GL ERROR: " << err << std::endl;
+			} 
 		}
 	}else {
 	printf("Error during parsing mesh from %s : %s \n", fileName.c_str(), importer.GetErrorString());
@@ -181,22 +175,6 @@ float Model::getModelSize()
 	return modelSize;
 }
 
-/*void Model::draw(Object* model)
-{
-	//std::cout << model->getId() << std::endl;
-	
-	//glStencilMask(0xFF);
-	shader->useProgram();
-	bindVertexArray();
-	shader->updateModelMatrix(model->getModelMatrix());
-	shader->updateMaterial(model->getMaterial());
-	shader->updateViewMatrix();
-	shader->updateProjectionMatrix();
-	shader->updateTexture(model->getTexture());
-	glStencilFunc(GL_ALWAYS, model->getId(), 0xFF);
-	glDrawArrays(GL_TRIANGLES, 0, modelSize);
-	
-}*/
 
 
 

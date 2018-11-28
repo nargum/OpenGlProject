@@ -99,6 +99,7 @@ void Window::drawContent()
 
 	Texture* tex = new Texture("..\\textures\\wall.jpg");
 	Texture* brick = new Texture("..\\textures\\brick.jpg");
+	Texture* houseTexture = new Texture("..\\models\\testModels\\Models\\test.png");
 
 	Shader* shader2 = new Shader(camera, light, "..\\shaders\\textureVertex.txt", "..\\shaders\\textureFragment.txt");
 	Shader* shader = new Shader(camera, light, "..\\shaders\\vertexShader.txt", "..\\shaders\\fragmentShader.txt");
@@ -111,11 +112,12 @@ void Window::drawContent()
 
 	Model* square = new Model(plain, sizeof(plain) / sizeof(*plain), sizeof(plain));
 	Model* circle = new Model(VERTICES, sizeof(VERTICES) / sizeof(*VERTICES), sizeof(VERTICES));
+	Model* house = new Model("..\\models\\testModels\\Models\\test.obj");
 	//Model * suzi = new Model(shader, VERTICESSUZI, sizeof(VERTICESSUZI) / sizeof(*VERTICESSUZI), sizeof(VERTICESSUZI));
 
 
-	Object* k = new Object(pearl, tex, square, handler, shader2);
-	k->rotate('x', 90.0);
+	Object* k = new Object(pearl, houseTexture, house, handler, shader);
+	//k->rotate('x', 90.0);
 	k->translate(glm::vec3(-3.0, 0.0, 0.0));
 	//k->scale(3.0);
 
@@ -132,6 +134,7 @@ void Window::drawContent()
 	
 	Object* model3 = new Object(gold, brick, circle, handler, shader);
 	model3->translate(glm::vec3(2.f, 2.f, 0.f));
+
 	
 	
 	while (!glfwWindowShouldClose(window))

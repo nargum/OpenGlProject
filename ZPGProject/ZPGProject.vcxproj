@@ -135,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="AssimpVertex.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Listener.h" />

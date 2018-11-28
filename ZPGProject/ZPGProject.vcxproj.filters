@@ -101,8 +101,5 @@
     <ClInclude Include="Suzi.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
-    <ClInclude Include="AssimpVertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

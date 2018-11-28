@@ -79,6 +79,7 @@ void Object::draw()
 	shader->updateTexture(this->getTexture());
 	glStencilFunc(GL_ALWAYS, this->getId(), 0xFF);
 	glDrawArrays(GL_TRIANGLES, 0, model->getModelSize());
+	//glDrawElements(GL_TRIANGLES, model->getModelSize(), GL_UNSIGNED_INT, NULL);
 }
 
 bool Object::getDrawObject()
